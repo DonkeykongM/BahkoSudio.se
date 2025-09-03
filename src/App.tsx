@@ -423,7 +423,7 @@ function App() {
               </div>
               <h3 className="text-2xl font-bold text-gray-900 mb-4" itemProp="name">Top 3</h3>
               <p className="text-gray-600 text-lg leading-relaxed mb-4" itemProp="description">
-                Nå topp 3 på Google gratis. Bli nummer 1 på Google Maps organiskt.
+                Nå topp 3 på Google gratis. Bli top 3 på Google Maps organiskt.
               </p>
               <div className="text-green-600 font-semibold">Långsiktig synlighet utan reklamkostnader</div>
             </div>
