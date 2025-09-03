@@ -197,12 +197,12 @@ function App() {
                   <strong className="text-gray-900"> Få din personliga analys direkt.</strong>
                 </p>
                 <button 
-                  onClick={(e) => {
-                    e.preventDefault();
+                  onClick={() => {
                     const contactSection = document.getElementById('contact');
                     if (contactSection) {
-                      contactSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                      contactSection.scrollIntoView({ behavior: 'smooth' });
                     }
+                    window.open('https://www.genspark.ai/api/page_private?id=cumznxdv', '_blank');
                   }}
                   className="w-full bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white py-4 rounded-xl font-semibold text-lg transition-all duration-300 transform hover:scale-105 shadow-lg"
                 >
