@@ -266,111 +266,111 @@ function App() {
 
             {/* Client Testimonials in Hero */}
             <div className="border-t border-gray-200 pt-16">
-              <p className="text-gray-500 mb-8 text-lg">Resultat från våra kunder</p>
+              <p className="text-gray-500 mb-8 text-lg">Fallstudier - Vi skapade deras hemsidor</p>
               
               <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto">
-                <div className="bg-white/80 backdrop-blur-sm rounded-2xl p-8 shadow-lg border border-white/20 relative overflow-hidden" itemScope itemType="https://schema.org/Review">
-                  <div className="absolute inset-0 opacity-10">
+                <div className="bg-white/95 backdrop-blur-md rounded-3xl p-8 shadow-xl border border-white/30 relative overflow-hidden hover:shadow-2xl transition-all duration-300 transform hover:scale-105" itemScope itemType="https://schema.org/Review">
+                  <div className="absolute inset-0 opacity-5">
                     <img 
                       src="/api/placeholder/400/300" 
-                      alt="BahkoStudio Automatiseringsbyrå" 
+                      alt="BahkoStudio Hemsida" 
                       className="w-full h-full object-cover"
                       style={{
-                        background: 'linear-gradient(135deg, #1e293b 0%, #f97316 100%)',
+                        background: 'linear-gradient(135deg, #1e293b 0%, #f97316 80%)',
                         display: 'flex',
                         alignItems: 'center',
                         justifyContent: 'center',
                         color: 'white',
-                        fontSize: '20px',
+                        fontSize: '18px',
                         fontWeight: 'bold'
                       }}
                     />
                   </div>
-                  <div className="relative z-10">
-                    <div className="flex text-yellow-400 mb-4">
+                  <div className="relative z-10 bg-white/80 backdrop-blur-sm rounded-2xl p-6 border border-white/40">
+                    <div className="flex text-yellow-500 mb-4 justify-center">
                       {[...Array(5)].map((_, i) => (
-                        <Star key={i} className="w-5 h-5 fill-current" />
+                        <Star key={i} className="w-5 h-5 fill-current drop-shadow-sm" />
                       ))}
                     </div>
-                    <blockquote className="text-gray-700 mb-4 text-lg" itemProp="reviewBody">
-                      "BahkoStudio fördubblade vår onlineförsäljning på 6 veckor."
+                    <blockquote className="text-gray-800 mb-4 text-lg font-medium text-center leading-relaxed" itemProp="reviewBody">
+                      "BahkoStudio skapade vår hemsida och fördubblade vår onlineförsäljning på 6 veckor med SEO och Google Ads."
                     </blockquote>
-                    <div className="text-gray-600 font-semibold" itemProp="author" itemScope itemType="https://schema.org/Person">
-                      <div itemProp="name">Maykas Kitchen</div>
+                    <div className="text-center" itemProp="author" itemScope itemType="https://schema.org/Person">
+                      <div className="text-gray-900 font-bold text-lg mb-1" itemProp="name">BahkoStudio</div>
                       <a href="https://maykaskitchen.se" target="_blank" rel="noopener noreferrer" className="text-orange-600 hover:text-orange-700 text-sm">
-                        maykaskitchen.se
+                        Automatiseringsbyrå →
                       </a>
                     </div>
                     <meta itemProp="ratingValue" content="5" />
                   </div>
                 </div>
                 
-                <div className="bg-white/80 backdrop-blur-sm rounded-2xl p-8 shadow-lg border border-white/20 relative overflow-hidden" itemScope itemType="https://schema.org/Review">
-                  <div className="absolute inset-0 opacity-10">
+                <div className="bg-white/95 backdrop-blur-md rounded-3xl p-8 shadow-xl border border-white/30 relative overflow-hidden hover:shadow-2xl transition-all duration-300 transform hover:scale-105" itemScope itemType="https://schema.org/Review">
+                  <div className="absolute inset-0 opacity-5">
                     <img 
                       src="/api/placeholder/400/300" 
-                      alt="Matbodens Restaurant" 
+                      alt="Matbodens Hemsida" 
                       className="w-full h-full object-cover"
                       style={{
-                        background: 'linear-gradient(135deg, #7c3aed 0%, #f97316 100%)',
+                        background: 'linear-gradient(135deg, #7c3aed 0%, #f97316 80%)',
                         display: 'flex',
                         alignItems: 'center',
                         justifyContent: 'center',
                         color: 'white',
-                        fontSize: '20px',
+                        fontSize: '18px',
                         fontWeight: 'bold'
                       }}
                     />
                   </div>
-                  <div className="relative z-10">
-                    <div className="flex text-yellow-400 mb-4">
+                  <div className="relative z-10 bg-white/80 backdrop-blur-sm rounded-2xl p-6 border border-white/40">
+                    <div className="flex text-yellow-500 mb-4 justify-center">
                       {[...Array(5)].map((_, i) => (
-                        <Star key={i} className="w-5 h-5 fill-current" />
+                        <Star key={i} className="w-5 h-5 fill-current drop-shadow-sm" />
                       ))}
                     </div>
-                    <blockquote className="text-gray-700 mb-4 text-lg" itemProp="reviewBody">
-                      "Från 0 till 200+ kunder per månad med automatiserade flöden."
+                    <blockquote className="text-gray-800 mb-4 text-lg font-medium text-center leading-relaxed" itemProp="reviewBody">
+                      "Från 0 till 200+ kunder per månad efter BahkoStudio byggde vår hemsida och körde Google Ads."
                     </blockquote>
-                    <div className="text-gray-600 font-semibold" itemProp="author" itemScope itemType="https://schema.org/Person">
-                      <div itemProp="name">Matbodens</div>
+                    <div className="text-center" itemProp="author" itemScope itemType="https://schema.org/Person">
+                      <div className="text-gray-900 font-bold text-lg mb-1" itemProp="name">Matbodens</div>
                       <a href="https://matbodens.se" target="_blank" rel="noopener noreferrer" className="text-orange-600 hover:text-orange-700 text-sm">
-                        matbodens.se
+                        Restaurang →
                       </a>
                     </div>
                     <meta itemProp="ratingValue" content="5" />
                   </div>
                 </div>
                 
-                <div className="bg-white/80 backdrop-blur-sm rounded-2xl p-8 shadow-lg border border-white/20 relative overflow-hidden" itemScope itemType="https://schema.org/Review">
-                  <div className="absolute inset-0 opacity-10">
+                <div className="bg-white/95 backdrop-blur-md rounded-3xl p-8 shadow-xl border border-white/30 relative overflow-hidden hover:shadow-2xl transition-all duration-300 transform hover:scale-105" itemScope itemType="https://schema.org/Review">
+                  <div className="absolute inset-0 opacity-5">
                     <img 
                       src="/api/placeholder/400/300" 
-                      alt="Maykas Kitchen" 
+                      alt="Maykas Kitchen Hemsida" 
                       className="w-full h-full object-cover"
                       style={{
-                        background: 'linear-gradient(135deg, #0891b2 0%, #f97316 100%)',
+                        background: 'linear-gradient(135deg, #0891b2 0%, #f97316 80%)',
                         display: 'flex',
                         alignItems: 'center',
                         justifyContent: 'center',
                         color: 'white',
-                        fontSize: '20px',
+                        fontSize: '18px',
                         fontWeight: 'bold'
                       }}
                     />
                   </div>
-                  <div className="relative z-10">
-                    <div className="flex text-yellow-400 mb-4">
+                  <div className="relative z-10 bg-white/80 backdrop-blur-sm rounded-2xl p-6 border border-white/40">
+                    <div className="flex text-yellow-500 mb-4 justify-center">
                       {[...Array(5)].map((_, i) => (
-                        <Star key={i} className="w-5 h-5 fill-current" />
+                        <Star key={i} className="w-5 h-5 fill-current drop-shadow-sm" />
                       ))}
                     </div>
-                    <blockquote className="text-gray-700 mb-4 text-lg" itemProp="reviewBody">
-                      "Komplett automation som genererar leads 24/7. Imponerande!"
+                    <blockquote className="text-gray-800 mb-4 text-lg font-medium text-center leading-relaxed" itemProp="reviewBody">
+                      "BahkoStudio byggde vår hemsida och SEO-strategi. Nu kommer kunder direkt från Google 24/7!"
                     </blockquote>
-                    <div className="text-gray-600 font-semibold" itemProp="author" itemScope itemType="https://schema.org/Person">
-                      <div itemProp="name">BahkoStudio</div>
-                      <a href="https://bahkostudio.live" target="_blank" rel="noopener noreferrer" className="text-orange-600 hover:text-orange-700 text-sm">
-                        bahkostudio.live
+                    <div className="text-center" itemProp="author" itemScope itemType="https://schema.org/Person">
+                      <div className="text-gray-900 font-bold text-lg mb-1" itemProp="name">Maykas Kitchen</div>
+                      <a href="https://maykaskitchen.se" target="_blank" rel="noopener noreferrer" className="text-orange-600 hover:text-orange-700 text-sm">
+                        Assyrisk matkonst →
                       </a>
                     </div>
                     <meta itemProp="ratingValue" content="5" />
