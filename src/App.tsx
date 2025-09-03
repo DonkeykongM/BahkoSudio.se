@@ -110,6 +110,7 @@ function App() {
     const formData = new FormData(e.target as HTMLFormElement);
     const data = {
       name: formData.get('name'),
+      email: formData.get('email'),
       phone: formData.get('phone'),
       company: formData.get('company'),
       website: formData.get('website'),
@@ -171,6 +172,13 @@ function App() {
                     type="text"
                     name="name"
                     placeholder="Ditt namn *"
+                    required
+                    className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent"
+                  />
+                  <input
+                    type="email"
+                    name="email"
+                    placeholder="Din e-post *"
                     required
                     className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent"
                   />
