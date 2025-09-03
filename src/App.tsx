@@ -907,8 +907,10 @@ function App() {
                 type="submit"
                 className="w-full bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white py-6 rounded-xl font-bold text-xl transition-all duration-300 transform hover:scale-105 shadow-xl flex items-center justify-center group"
               >
-                Starta 30-dagars test →
-                <ArrowRight className="w-6 h-6 ml-3 group-hover:translate-x-1 transition-transform" />
+                <span className="flex items-center gap-2">
+                  Starta 30-dagars test →
+                  <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                </span>
               </button>
             </form>
             
