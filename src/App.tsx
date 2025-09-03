@@ -204,9 +204,6 @@ function App() {
                       contactSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
                     }
                   }}
-                    e.preventDefault();
-                    window.open('https://www.genspark.ai/api/page_private?id=cumznxdv', '_blank');
-                  }}
                   className="w-full bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white py-4 rounded-xl font-semibold text-lg transition-all duration-300 transform hover:scale-105 shadow-lg"
                 >
                   Starta quiz (60 sek)
