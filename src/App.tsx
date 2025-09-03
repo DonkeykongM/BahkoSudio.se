@@ -822,7 +822,6 @@ function App() {
           </p>
           
           <div className="bg-white/10 backdrop-blur-sm rounded-3xl p-10 mb-12 max-w-lg mx-auto border border-white/20">
-            <form className="space-y-6">
             <form onSubmit={handleContactSubmit} className="space-y-6">
               <input
                 type="text"
