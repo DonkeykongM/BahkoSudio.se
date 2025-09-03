@@ -410,9 +410,9 @@ function App() {
               <div className="w-24 h-24 bg-gradient-to-br from-blue-100 to-blue-200 rounded-full flex items-center justify-center mx-auto mb-8 shadow-lg group-hover:shadow-xl transition-all duration-300 transform group-hover:scale-105">
                 <Globe className="w-12 h-12 text-blue-600" />
               </div>
-              <h3 className="text-2xl font-bold text-gray-900 mb-4" itemProp="name">Nå VARJE Lokal Kund</h3>
+              <h3 className="text-2xl font-bold text-gray-900 mb-4" itemProp="name">FB/IG Annonser för att Nå VARJE Lokal Kund</h3>
               <p className="text-gray-600 text-lg leading-relaxed mb-4" itemProp="description">
-                Var överallt. Google, Facebook, Instagram, LinkedIn... Vi täcker alla plattformar.
+                Var överallt. Google, Instagram, Facebook, YouTube... Vi täcker alla plattformar.
               </p>
               <div className="text-blue-600 font-semibold">Annonser som når kunder där de befinner sig</div>
             </div>
