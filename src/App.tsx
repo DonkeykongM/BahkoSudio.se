@@ -1,1022 +1,970 @@
-import React, { useState } from 'react';
-import { 
-  TrendingUp, 
-  Users, 
-  ArrowRight, 
-  CheckCircle, 
-  Star, 
-  Phone, 
-  Mail, 
-  MapPin,
-  ChevronDown,
-  Menu,
-  X,
-  Target,
-  Zap,
-  BarChart3,
-  Globe,
-  Search,
-  MessageSquare,
-  MousePointer
-} from 'lucide-react';
-
-interface QuizQuestion {
-  id: number;
-  question: string;
-  options: { text: string; points: number }[];
-}
-
-interface QuizData {
-  currentQuestion: number;
-  answers: number[];
-  totalScore: number;
-  isComplete: boolean;
-  showForm: boolean;
-  formSubmitted: boolean;
-}
-
-interface FormData {
-  name: string;
-  email: string;
-  phone: string;
-  company: string;
-  website: string;
-}
-
-const quizQuestions: QuizQuestion[] = [
-  {
-    id: 1,
-    question: "Hur många kunder får ditt företag genom din hemsida per månad?",
-    options: [
-      { text: "0-5 kunder", points: 3 },
-      { text: "5-15 kunder", points: 2 },
-      { text: "15+ kunder", points: 1 }
-    ]
-  },
-  {
-    id: 2,
-    question: "Hur syns ditt företag på Google när folk söker efter dina tjänster?",
-    options: [
-      { text: "Vet inte/syns dåligt", points: 3 },
-      { text: "Syns ibland på sidan 2-3", points: 2 },
-      { text: "Syns ofta på första sidan", points: 1 }
-    ]
-  },
-  {
-    id: 3,
-    question: "Hur arbetar du med digital marknadsföring idag?",
-    options: [
-      { text: "Gör inget eller väldigt lite", points: 3 },
-      { text: "Försöker själv då och då", points: 2 },
-      { text: "Har hjälp från byrå/expert", points: 1 }
-    ]
-  }
-];
+import React, { useState, useEffect } from 'react';
+import { CheckCircle, Clock, Target, TrendingUp, Star, ArrowRight, Zap, Users, Award, Phone, Mail, Shield, X, ChevronRight, BarChart3, Rocket, Globe, Search, Menu, ExternalLink } from 'lucide-react';
 
 function App() {
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [activeSection, setActiveSection] = useState('home');
-  const [quiz, setQuiz] = useState<QuizData>({
-    currentQuestion: 0,
-    answers: [],
-    totalScore: 0,
-    isComplete: false,
-    showForm: false,
-    formSubmitted: false
-  });
+  const [showQuiz, setShowQuiz] = useState(false);
+  const [currentQuestion, setCurrentQuestion] = useState(0);
+  const [answers, setAnswers] = useState<number[]>([]);
+  const [countdown, setCountdown] = useState(60);
+  const [quizStarted, setQuizStarted] = useState(false);
+  const [quizCompleted, setQuizCompleted] = useState(false);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
-  const [quizForm, setQuizForm] = useState<FormData>({
-    name: '',
-    email: '',
-    phone: '',
-    company: '',
-    website: ''
-  });
-
-  const [contactForm, setContactForm] = useState({
-    name: '',
-    email: '',
-    phone: ''
-  });
-
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [submitMessage, setSubmitMessage] = useState('');
-
-  // Smooth scroll to section
-  const scrollToSection = (sectionId: string) => {
-    const element = document.getElementById(sectionId);
-    if (element) {
-      element.scrollIntoView({ behavior: 'smooth' });
-      setActiveSection(sectionId);
-      setIsMenuOpen(false);
+  const quizQuestions = [
+    {
+      question: "Har du en professionell webbsida för ditt företag?",
+      options: [
+        "Ja, en modern och optimerad sida",
+        "Ja, men den är gammal och behöver uppdateras", 
+        "Nej, bara sociala medier",
+        "Nej, inget online alls"
+      ]
+    },
+    {
+      question: "Hur hittar dina kunder dig idag?",
+      options: [
+        "Via Google-sökningar organiskt",
+        "Via rekommendationer och word-of-mouth",
+        "Via sociala medier",
+        "Vet inte / De hittar mig inte"
+      ]
+    },
+    {
+      question: "Vad händer när potentiella kunder besöker din nuvarande webbplats?",
+      options: [
+        "De kontaktar mig direkt för köp",
+        "De browsear runt men få kontaktar mig",
+        "Högt avhopp - de lämnar snabbt",
+        "Har ingen webbsida att besöka"
+      ]
+    },
+    {
+      question: "Hur mycket tid lägger du på att få nya kunder varje vecka?",
+      options: [
+        "0-5 timmar - det flyter på automatiskt",
+        "5-15 timmar - en del manuellt arbete",
+        "15-25 timmar - mycket eget letande",
+        "25+ timmar - konstant jakt på kunder"
+      ]
     }
-  };
+  ];
 
-  // Handle quiz answer
-  const handleQuizAnswer = (points: number) => {
-    const newAnswers = [...quiz.answers, points];
-    const newScore = quiz.totalScore + points;
-    
-    if (quiz.currentQuestion < quizQuestions.length - 1) {
-      setQuiz({
-        ...quiz,
-        currentQuestion: quiz.currentQuestion + 1,
-        answers: newAnswers,
-        totalScore: newScore
-      });
-    } else {
-      setQuiz({
-        ...quiz,
-        answers: newAnswers,
-        totalScore: newScore,
-        isComplete: true,
-        showForm: true
-      });
+  useEffect(() => {
+    if (quizStarted && countdown > 0) {
+      const timer = setTimeout(() => setCountdown(countdown - 1), 1000);
+      return () => clearTimeout(timer);
+    } else if (quizStarted && countdown === 0) {
+      setShowQuiz(false);
+      setQuizStarted(false);
+      setCurrentQuestion(0);
+      setAnswers([]);
+      setCountdown(60);
     }
-  };
+  }, [countdown, quizStarted]);
 
-  // Start quiz
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setShowQuiz(true);
+    }, 5000);
+    return () => clearTimeout(timer);
+  }, []);
+
   const startQuiz = () => {
-    setQuiz({
-      currentQuestion: 0,
-      answers: [],
-      totalScore: 0,
-      isComplete: false,
-      showForm: false,
-      formSubmitted: false
-    });
+    setQuizStarted(true);
   };
 
-  // Reset quiz
   const resetQuiz = () => {
-    setQuiz({
-      currentQuestion: 0,
-      answers: [],
-      totalScore: 0,
-      isComplete: false,
-      showForm: false,
-      formSubmitted: false
-    });
-    setQuizForm({
-      name: '',
-      email: '',
-      phone: '',
-      company: '',
-      website: ''
-    });
+    setShowQuiz(false);
+    setQuizStarted(false);
+    setQuizCompleted(false);
+    setCurrentQuestion(0);
+    setAnswers([]);
+    setCountdown(60);
   };
+  const handleAnswer = (answerIndex: number) => {
+    const newAnswers = [...answers, answerIndex];
+    setAnswers(newAnswers);
 
-  // Submit quiz form
-  const submitQuizForm = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setIsSubmitting(true);
-
-    try {
-      const webhookData = {
-        source: 'quiz',
-        name: quizForm.name,
-        email: quizForm.email,
-        phone: quizForm.phone || '',
-        company: quizForm.company,
-        website: quizForm.website || '',
-        quiz_score: quiz.totalScore,
-        quiz_answers: quiz.answers,
-        timestamp: new Date().toISOString()
-      };
-
-      const response = await fetch('https://hook.eu2.make.com/6rs6fuf9gqv0yfy4ygupar495u8glmpx', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(webhookData)
-      });
-
-      if (response.ok) {
-        setQuiz({ ...quiz, formSubmitted: true });
-        setSubmitMessage('Tack! Du får din personliga analys inom 24 timmar.');
-      } else {
-        throw new Error('Network response was not ok');
-      }
-    } catch (error) {
-      console.error('Error:', error);
-      setSubmitMessage('Något gick fel. Försök igen eller kontakta oss direkt.');
-    } finally {
-      setIsSubmitting(false);
-    }
-  };
-
-  // Submit contact form
-  const submitContactForm = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setIsSubmitting(true);
-
-    try {
-      const webhookData = {
-        source: 'contact_form',
-        name: contactForm.name,
-        email: contactForm.email,
-        phone: contactForm.phone,
-        timestamp: new Date().toISOString()
-      };
-
-      const response = await fetch('https://hook.eu2.make.com/6rs6fuf9gqv0yfy4ygupar495u8glmpx', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(webhookData)
-      });
-
-      if (response.ok) {
-        setContactForm({ name: '', email: '', phone: '' });
-        setSubmitMessage('Tack för ditt meddelande! Vi kontaktar dig inom kort.');
-      } else {
-        throw new Error('Network response was not ok');
-      }
-    } catch (error) {
-      console.error('Error:', error);
-      setSubmitMessage('Något gick fel. Försök igen eller ring oss på +46764793683.');
-    } finally {
-      setIsSubmitting(false);
-    }
-  };
-
-  // Get quiz result message
-  const getQuizResult = () => {
-    if (quiz.totalScore >= 7) {
-      return {
-        title: "Hög potential för tillväxt! 🚀",
-        description: "Du har stora möjligheter att öka din kundtillströmning dramatiskt. Vi kan hjälpa dig att fylla din kalender med nya kunder redan första månaden.",
-        color: "text-red-600"
-      };
-    } else if (quiz.totalScore >= 5) {
-      return {
-        title: "Bra grund, kan förbättras! 💪",
-        description: "Du är på rätt väg men det finns utrymme för förbättringar. Vi kan hjälpa dig att optimera och få ännu fler kunder.",
-        color: "text-orange-600"
-      };
+    if (currentQuestion < quizQuestions.length - 1) {
+      setCurrentQuestion(currentQuestion + 1);
     } else {
-      return {
-        title: "Du gör redan bra ifrån dig! ✨",
-        description: "Du har en stark grund, men vi kan hjälpa dig att ta det till nästa nivå och automatisera dina processer.",
-        color: "text-green-600"
-      };
+      // Quiz completed
+      const problemScore = newAnswers.reduce((sum, answer, index) => {
+        // Higher score = more problems
+        if (index === 0 && answer >= 2) return sum + 2; // No website
+        if (index === 1 && answer >= 2) return sum + 2; // Not found via Google
+        if (index === 2 && answer >= 2) return sum + 2; // High bounce rate
+        if (index === 3 && answer >= 2) return sum + 2; // Spending too much time
+        return sum + answer;
+      }, 0);
+
+      localStorage.setItem('bahko-quiz-score', problemScore.toString());
+      setQuizCompleted(true);
+      setQuizStarted(false);
+      setCountdown(60);
     }
   };
 
+  const handleQuizSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    const formData = new FormData(e.target as HTMLFormElement);
+    const data = {
+      name: formData.get('name'),
+      email: formData.get('email'),
+      phone: formData.get('phone'),
+      company: formData.get('company'),
+      website: formData.get('website'),
+      score: localStorage.getItem('bahko-quiz-score'),
+      source: 'quiz'
+    };
+    
+    // Skicka data till Make.com webhook
+    fetch('https://hook.eu2.make.com/6rs6fuf9gqv0yfy4ygupar495u8glmpx', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(data)
+    })
+    .then(response => response.json())
+    .then(result => {
+      console.log('Quiz data sent successfully:', result);
+      resetQuiz();
+      alert('Tack! Vi hör av oss inom kort.');
+    })
+    .catch(error => {
+      console.error('Error sending quiz data:', error);
+      resetQuiz();
+      alert('Tack! Vi hör av oss inom kort.');
+    });
+  };
+  
+  const handleContactSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    const formData = new FormData(e.target as HTMLFormElement);
+    const data = {
+      name: formData.get('name'),
+      email: formData.get('email'),
+      phone: formData.get('phone'),
+      source: 'contact_form'
+    };
+    
+    // Skicka data till Make.com webhook
+    fetch('https://hook.eu2.make.com/6rs6fuf9gqv0yfy4ygupar495u8glmpx', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(data)
+    })
+    .then(response => response.json())
+    .then(result => {
+      console.log('Contact data sent successfully:', result);
+      alert('Tack! Vi hör av oss inom kort med din gratis analys.');
+      // Rensa formuläret
+      (e.target as HTMLFormElement).reset();
+    })
+    .catch(error => {
+      console.error('Error sending contact data:', error);
+      alert('Tack! Vi hör av oss inom kort med din gratis analys.');
+      // Rensa formuläret
+      (e.target as HTMLFormElement).reset();
+    });
+  };
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50">
-      {/* Navigation */}
-      <nav className="fixed top-0 w-full bg-white/80 backdrop-blur-md border-b border-gray-200 z-50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center h-16">
+      {/* Quiz Popup */}
+      {showQuiz && (
+        <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-4">
+          <div className="bg-white rounded-3xl p-8 max-w-md w-full shadow-2xl relative border border-white/20">
             <button 
-              onClick={() => scrollToSection('home')}
-              className="font-bold text-xl text-gray-900 hover:text-indigo-600 transition-colors"
+              onClick={() => setShowQuiz(false)}
+              className="absolute top-4 right-4 text-gray-400 hover:text-gray-600 transition-colors"
             >
-              BahkoStudio
+              <X className="w-6 h-6" />
             </button>
-            
-            {/* Desktop Navigation */}
-            <div className="hidden md:flex space-x-8">
-              <button 
-                onClick={() => scrollToSection('home')}
-                className={`px-3 py-2 rounded-md text-sm font-medium transition-colors ${
-                  activeSection === 'home' ? 'text-indigo-600' : 'text-gray-700 hover:text-indigo-600'
-                }`}
-              >
-                Hem
-              </button>
-              <button 
-                onClick={() => scrollToSection('services')}
-                className={`px-3 py-2 rounded-md text-sm font-medium transition-colors ${
-                  activeSection === 'services' ? 'text-indigo-600' : 'text-gray-700 hover:text-indigo-600'
-                }`}
-              >
-                Tjänster
-              </button>
-              <button 
-                onClick={() => scrollToSection('results')}
-                className={`px-3 py-2 rounded-md text-sm font-medium transition-colors ${
-                  activeSection === 'results' ? 'text-indigo-600' : 'text-gray-700 hover:text-indigo-600'
-                }`}
-              >
-                Resultat
-              </button>
-              <button 
-                onClick={() => scrollToSection('quiz')}
-                className={`px-3 py-2 rounded-md text-sm font-medium transition-colors ${
-                  activeSection === 'quiz' ? 'text-indigo-600' : 'text-gray-700 hover:text-indigo-600'
-                }`}
-              >
-                Quiz
-              </button>
-              <button 
-                onClick={() => scrollToSection('contact')}
-                className="bg-indigo-600 text-white px-4 py-2 rounded-lg hover:bg-indigo-700 transition-colors"
-              >
-                Kontakt
-              </button>
-            </div>
 
-            {/* Mobile menu button */}
-            <button
-              onClick={() => setIsMenuOpen(!isMenuOpen)}
-              className="md:hidden p-2 rounded-md text-gray-700 hover:text-indigo-600 hover:bg-gray-100"
+            {!quizStarted && !quizCompleted ? (
+              <div className="text-center">
+                <div className="w-20 h-20 bg-gradient-to-br from-orange-100 to-orange-200 rounded-full flex items-center justify-center mx-auto mb-6">
+                  <BarChart3 className="w-10 h-10 text-orange-600" />
+                </div>
+                <h3 className="text-3xl font-bold text-gray-900 mb-4">
+                  Får du tillräckligt med kunder?
+                </h3>
+                <p className="text-gray-600 mb-8 text-lg">
+                  Ta vår 60-sekunders quiz och upptäck vad du missar. 
+                  <strong className="text-gray-900"> Få din personliga analys direkt.</strong>
+                </p>
+                <button 
+                  onClick={startQuiz}
+                  className="w-full bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white py-4 rounded-xl font-semibold text-lg transition-all duration-300 transform hover:scale-105 shadow-lg"
+                >
+                  Starta quiz (60 sek)
+                </button>
+              </div>
+            ) : quizCompleted ? (
+              <div className="text-center">
+                <div className="w-20 h-20 bg-gradient-to-br from-green-100 to-green-200 rounded-full flex items-center justify-center mx-auto mb-6">
+                  <CheckCircle className="w-10 h-10 text-green-600" />
+                </div>
+                <h3 className="text-2xl font-bold text-gray-900 mb-4">
+                  Din personliga analys är klar!
+                </h3>
+                <p className="text-gray-600 mb-8">
+                  Fyll i dina uppgifter så skickar vi dig en skräddarsydd strategi för att få fler kunder.
+                </p>
+                
+                <form onSubmit={handleQuizSubmit} className="space-y-4">
+                  <input
+                    type="text"
+                    name="name"
+                    placeholder="Ditt namn *"
+                    required
+                    className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent"
+                  />
+                  <input
+                    type="email"
+                    name="email"
+                    placeholder="Din e-post *"
+                    required
+                    className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent"
+                  />
+                  <input
+                    type="tel"
+                    name="phone"
+                    placeholder="Telefonnummer (valfritt)"
+                    className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent"
+                  />
+                  <input
+                    type="text"
+                    name="company"
+                    placeholder="Företag *"
+                    required
+                    className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent"
+                  />
+                  <input
+                    type="url"
+                    name="website"
+                    placeholder="Hemsida (valfritt)"
+                    className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent"
+                  />
+                  <button
+                    type="submit"
+                    className="w-full bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white py-4 rounded-lg font-semibold text-lg transition-all duration-300 transform hover:scale-105 shadow-lg"
+                  >
+                    Få min personliga analys →
+                  </button>
+                </form>
+                
+                <p className="text-xs text-gray-500 mt-4">
+                  Vi hör av oss inom 24 timmar med din skräddarsydda strategi
+                </p>
+              </div>
+            ) : (
+              <div>
+                <div className="flex justify-between items-center mb-8">
+                  <div className="text-sm text-gray-500 font-medium">
+                    Fråga {currentQuestion + 1} av {quizQuestions.length}
+                  </div>
+                  <div className="text-sm text-orange-600 font-bold bg-orange-50 px-3 py-1 rounded-full">
+                    {countdown}s kvar
+                  </div>
+                </div>
+
+                <h3 className="text-2xl font-bold text-gray-900 mb-8">
+                  {quizQuestions[currentQuestion].question}
+                </h3>
+
+                <div className="space-y-3">
+                  {quizQuestions[currentQuestion].options.map((option, index) => (
+                    <button
+                      key={index}
+                      onClick={() => handleAnswer(index)}
+                      className="w-full text-left p-4 border border-gray-200 rounded-xl hover:border-orange-500 hover:bg-orange-50 transition-all duration-200 hover:shadow-sm"
+                    >
+                      <span className="text-gray-800">{option}</span>
+                    </button>
+                  ))}
+                </div>
+              </div>
+            )}
+          </div>
+        </div>
+      )}
+
+      {/* Header */}
+      <header className="relative bg-white/80 backdrop-blur-md border-b border-white/20 sticky top-0 z-40">
+        <div className="max-w-7xl mx-auto px-6">
+          <div className="flex items-center justify-between h-20">
+            <div className="flex items-center">
+              <img 
+                src="https://j0bzpddd4j.ufs.sh/f/bwjssIq7FWHCisV54LEMpqflOXSIZd3wu9KziagAHJkL4Wb5" 
+                alt="BahkoStudio Logo" 
+                className="h-10 mr-4"
+              />
+              <span className="text-2xl font-bold text-gray-900">BahkoStudio</span>
+            </div>
+            
+            <nav className="hidden md:flex items-center space-x-8">
+              <a href="#tjanster" className="text-gray-700 hover:text-orange-600 font-medium transition-colors">Tjänster</a>
+              <a href="#process" className="text-gray-700 hover:text-orange-600 font-medium transition-colors">Process</a>
+              <a href="#kontakt" className="text-gray-700 hover:text-orange-600 font-medium transition-colors">Kontakt</a>
+              <button className="bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white px-6 py-3 rounded-lg font-semibold transition-all duration-300 transform hover:scale-105 shadow-lg">
+                Få gratis analys
+              </button>
+            </nav>
+
+            <button 
+              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+              className="md:hidden p-2 rounded-lg hover:bg-gray-100 transition-colors"
             >
-              {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
+              <Menu className="w-6 h-6" />
             </button>
           </div>
-
-          {/* Mobile Navigation */}
-          {isMenuOpen && (
-            <div className="md:hidden border-t border-gray-200 py-2">
-              <div className="flex flex-col space-y-1">
-                <button 
-                  onClick={() => scrollToSection('home')}
-                  className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-indigo-600 hover:bg-gray-50"
-                >
-                  Hem
-                </button>
-                <button 
-                  onClick={() => scrollToSection('services')}
-                  className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-indigo-600 hover:bg-gray-50"
-                >
-                  Tjänster
-                </button>
-                <button 
-                  onClick={() => scrollToSection('results')}
-                  className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-indigo-600 hover:bg-gray-50"
-                >
-                  Resultat
-                </button>
-                <button 
-                  onClick={() => scrollToSection('quiz')}
-                  className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-indigo-600 hover:bg-gray-50"
-                >
-                  Quiz
-                </button>
-                <button 
-                  onClick={() => scrollToSection('contact')}
-                  className="block px-3 py-2 rounded-md text-base font-medium bg-indigo-600 text-white hover:bg-indigo-700"
-                >
-                  Kontakt
+          
+          {/* Mobile Menu */}
+          {mobileMenuOpen && (
+            <div className="md:hidden border-t border-gray-200 py-4">
+              <div className="flex flex-col space-y-4">
+                <a href="#tjanster" className="text-gray-700 hover:text-orange-600 font-medium transition-colors">Tjänster</a>
+                <a href="#process" className="text-gray-700 hover:text-orange-600 font-medium transition-colors">Process</a>
+                <a href="#kontakt" className="text-gray-700 hover:text-orange-600 font-medium transition-colors">Kontakt</a>
+                <button className="bg-gradient-to-r from-orange-500 to-orange-600 text-white px-6 py-3 rounded-lg font-semibold w-full">
+                  Få gratis analys
                 </button>
               </div>
             </div>
           )}
         </div>
-      </nav>
+      </header>
 
-      {/* Hero Section */}
-      <section id="home" className="relative py-20 lg:py-32 overflow-hidden">
+      {/* Hero Section - David Ogilvy Style */}
+      <section className="relative py-20 lg:py-32 overflow-hidden" itemScope itemType="https://schema.org/WebPage">
+        {/* Background Pattern */}
         <div className="absolute inset-0 opacity-5">
           <div className="absolute inset-0" style={{
-            backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%236366f1' fill-opacity='0.1'%3E%3Ccircle cx='30' cy='30' r='4'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`,
-          }} />
+            backgroundImage: `radial-gradient(circle at 25% 25%, #3b82f6 0%, transparent 50%), radial-gradient(circle at 75% 75%, #f97316 0%, transparent 50%)`,
+            backgroundSize: '100px 100px'
+          }}></div>
         </div>
-
-        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center">
-            <h1 className="text-4xl sm:text-6xl lg:text-7xl font-bold text-gray-900 leading-tight">
-              Vi Fyller Din Kalender med{' '}
-              <span className="bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent">
-                Nya Kunder
-              </span>{' '}
-              inom 30 Dagar
+        
+        <div className="max-w-6xl mx-auto px-6 relative">
+          <div className="text-center mb-12">
+            <h1 className="text-5xl lg:text-7xl font-bold text-gray-900 mb-8 leading-tight" itemProp="headline">
+              Vi Fyller Din Kalender med Nya Kunder inom 30 Dagar - <span className="text-transparent bg-clip-text bg-gradient-to-r from-orange-500 to-orange-600">Garanterat</span>
             </h1>
             
-            <p className="mt-6 text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
-              Garanterade resultat på 30 dagar eller pengarna tillbaka. Vi skapar landningssidor som konverterar + topplacering på Google. Över 200 nöjda kunder.
-            </p>
-
-            <div className="mt-10 flex flex-col sm:flex-row gap-4 justify-center items-center">
-              <button 
-                onClick={() => scrollToSection('quiz')}
-                className="group bg-indigo-600 text-white px-8 py-4 rounded-full text-lg font-semibold hover:bg-indigo-700 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-1 flex items-center gap-2"
-              >
-                Gör Gratis Quiz Nu
-                <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
-              </button>
-              
-              <button 
-                onClick={() => scrollToSection('contact')}
-                className="group bg-white text-indigo-600 px-8 py-4 rounded-full text-lg font-semibold border-2 border-indigo-600 hover:bg-indigo-50 transition-all duration-300 flex items-center gap-2"
-              >
-                <Phone className="w-5 h-5" />
-                Ring +46764793683
-              </button>
-            </div>
-
-            <div className="mt-16 grid grid-cols-1 md:grid-cols-3 gap-8 max-w-4xl mx-auto">
-              <div className="text-center">
-                <div className="text-3xl font-bold text-indigo-600">30 Dagar</div>
-                <div className="text-gray-600 mt-1">Garanterade resultat</div>
-              </div>
-              <div className="text-center">
-                <div className="text-3xl font-bold text-indigo-600">200+</div>
-                <div className="text-gray-600 mt-1">Nöjda kunder</div>
-              </div>
-              <div className="text-center">
-                <div className="text-3xl font-bold text-indigo-600">5.0</div>
-                <div className="text-gray-600 mt-1 flex items-center justify-center gap-1">
-                  <Star className="w-4 h-4 fill-yellow-400 text-yellow-400" />
-                  Stjärnor i betyg
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Services Section */}
-      <section id="services" className="py-20 bg-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold text-gray-900 mb-4">
-              Vi Levererar Exakt Det Du Behöver
-            </h2>
-            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              Allt under samma tak - från SEO-optimerade landningssidor till Google Ads som faktiskt konverterar
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-            {/* Service 1 */}
-            <div className="bg-gradient-to-br from-blue-50 to-indigo-100 rounded-2xl p-8 hover:shadow-lg transition-shadow">
-              <div className="w-16 h-16 bg-blue-500 rounded-full flex items-center justify-center mb-6">
-                <Globe className="w-8 h-8 text-white" />
-              </div>
-              <h3 className="text-2xl font-bold text-gray-900 mb-4">
-                Landningssidor Som Konverterar
-              </h3>
-              <p className="text-gray-600 mb-6 leading-relaxed">
-                SEO-optimerade landningssidor, hemsidor med AEO (Answer Engine Optimization) och GEO-targeting som förvandlar besökare till betalande kunder.
-              </p>
-              <div className="text-sm text-indigo-600 font-medium">
-                Långsiktig synlighet utan reklamkostnader
-              </div>
-            </div>
-
-            {/* Service 2 */}
-            <div className="bg-gradient-to-br from-green-50 to-emerald-100 rounded-2xl p-8 hover:shadow-lg transition-shadow">
-              <div className="w-16 h-16 bg-green-500 rounded-full flex items-center justify-center mb-6">
-                <Search className="w-8 h-8 text-white" />
-              </div>
-              <h3 className="text-2xl font-bold text-gray-900 mb-4">
-                Nå Top 3 på Google – Helt Gratis
-              </h3>
-              <p className="text-gray-600 mb-6 leading-relaxed">
-                Bli top 3 på Google Maps helt organiskt – utan att betala för annonser. Syns där dina kunder söker, och låt din synlighet växa över tid.
-              </p>
-              <div className="text-sm text-green-600 font-medium">
-                Långsiktig synlighet utan reklamkostnader
-              </div>
-            </div>
-
-            {/* Service 3 */}
-            <div className="bg-gradient-to-br from-purple-50 to-violet-100 rounded-2xl p-8 hover:shadow-lg transition-shadow">
-              <div className="w-16 h-16 bg-purple-500 rounded-full flex items-center justify-center mb-6">
-                <Target className="w-8 h-8 text-white" />
-              </div>
-              <h3 className="text-2xl font-bold text-gray-900 mb-4">
-                Annonser Som Faktiskt Fungerar
-              </h3>
-              <p className="text-gray-600 mb-6 leading-relaxed">
-                Facebook Ads, Google Ads och komplett digital marketing-strategi som når varje lokal kund i ditt område och fyller din kalender snabbt.
-              </p>
-              <div className="text-sm text-purple-600 font-medium">
-                Snabba resultat med målriktade kampanjer
-              </div>
-            </div>
-          </div>
-
-          {/* Technical Expertise */}
-          <div className="mt-16 bg-gray-50 rounded-2xl p-8">
-            <h3 className="text-2xl font-bold text-gray-900 mb-6 text-center">
-              Vår Tekniska Expertis
-            </h3>
-            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
-              <div className="text-center">
-                <div className="bg-white rounded-lg p-4 shadow-sm">
-                  <div className="font-semibold text-indigo-600">SEO</div>
-                  <div className="text-sm text-gray-600 mt-1">Sökoptimering</div>
-                </div>
-              </div>
-              <div className="text-center">
-                <div className="bg-white rounded-lg p-4 shadow-sm">
-                  <div className="font-semibold text-green-600">AEO</div>
-                  <div className="text-sm text-gray-600 mt-1">Answer Engine</div>
-                </div>
-              </div>
-              <div className="text-center">
-                <div className="bg-white rounded-lg p-4 shadow-sm">
-                  <div className="font-semibold text-blue-600">GEO</div>
-                  <div className="text-sm text-gray-600 mt-1">Lokal targeting</div>
-                </div>
-              </div>
-              <div className="text-center">
-                <div className="bg-white rounded-lg p-4 shadow-sm">
-                  <div className="font-semibold text-purple-600">FB Ads</div>
-                  <div className="text-sm text-gray-600 mt-1">Facebook</div>
-                </div>
-              </div>
-              <div className="text-center">
-                <div className="bg-white rounded-lg p-4 shadow-sm">
-                  <div className="font-semibold text-red-600">Google Ads</div>
-                  <div className="text-sm text-gray-600 mt-1">Sökannonsering</div>
-                </div>
-              </div>
-              <div className="text-center">
-                <div className="bg-white rounded-lg p-4 shadow-sm">
-                  <div className="font-semibold text-orange-600">Marketing</div>
-                  <div className="text-sm text-gray-600 mt-1">Digital strategi</div>
-                </div>
-              </div>
-            </div>
-            <p className="text-center text-gray-600 mt-6">
-              Vi hanterar allt från SEO-optimering till AEO för röstassistenter, GEO-targeting för lokala kunder och alla annonsplattformar under samma tak.
-            </p>
-          </div>
-
-          <div className="text-center mt-12">
-            <button 
-              onClick={() => scrollToSection('contact')}
-              className="bg-indigo-600 text-white px-8 py-4 rounded-full text-lg font-semibold hover:bg-indigo-700 transition-colors shadow-lg"
-            >
-              Boka Gratis Konsultation
-            </button>
-          </div>
-        </div>
-      </section>
-
-      {/* Results Section */}
-      <section id="results" className="py-20 bg-gray-50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold text-gray-900 mb-4">
-              Riktiga Resultat från Riktiga Kunder
-            </h2>
-            <p className="text-xl text-gray-600">
-              Se hur vi har hjälpt svenska företag att explodera sin tillväxt
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-16">
-            {/* Case Study 1 */}
-            <div className="bg-white rounded-2xl p-8 shadow-lg">
-              <div className="flex items-start gap-4">
-                <div className="w-16 h-16 bg-gradient-to-br from-green-400 to-emerald-600 rounded-full flex items-center justify-center text-white font-bold text-xl">
-                  MK
-                </div>
-                <div className="flex-1">
-                  <h3 className="text-xl font-bold text-gray-900 mb-2">Maykas Kitchen</h3>
-                  <p className="text-gray-600 mb-4">
-                    "BahkoStudio fördubblade vår onlineförsäljning på 6 veckor. Från 50 till 100+ beställningar per vecka med deras landningssida och Google Ads strategi."
-                  </p>
-                  <div className="flex items-center gap-1">
-                    {[...Array(5)].map((_, i) => (
-                      <Star key={i} className="w-4 h-4 fill-yellow-400 text-yellow-400" />
-                    ))}
-                  </div>
-                </div>
-              </div>
-              <div className="mt-6 grid grid-cols-2 gap-4">
-                <div className="text-center">
-                  <div className="text-2xl font-bold text-green-600">+200%</div>
-                  <div className="text-sm text-gray-600">Ökning försäljning</div>
-                </div>
-                <div className="text-center">
-                  <div className="text-2xl font-bold text-green-600">6 veckor</div>
-                  <div className="text-sm text-gray-600">Tid till resultat</div>
-                </div>
-              </div>
-            </div>
-
-            {/* Case Study 2 */}
-            <div className="bg-white rounded-2xl p-8 shadow-lg">
-              <div className="flex items-start gap-4">
-                <div className="w-16 h-16 bg-gradient-to-br from-blue-400 to-indigo-600 rounded-full flex items-center justify-center text-white font-bold text-xl">
-                  MB
-                </div>
-                <div className="flex-1">
-                  <h3 className="text-xl font-bold text-gray-900 mb-2">Matbodens</h3>
-                  <p className="text-gray-600 mb-4">
-                    "Från 0 till 200+ kunder per månad med automatiserade flöden. Deras SEO-strategi fick oss att rankas #1 för våra viktigaste sökord på bara 3 månader."
-                  </p>
-                  <div className="flex items-center gap-1">
-                    {[...Array(5)].map((_, i) => (
-                      <Star key={i} className="w-4 h-4 fill-yellow-400 text-yellow-400" />
-                    ))}
-                  </div>
-                </div>
-              </div>
-              <div className="mt-6 grid grid-cols-2 gap-4">
-                <div className="text-center">
-                  <div className="text-2xl font-bold text-blue-600">200+</div>
-                  <div className="text-sm text-gray-600">Nya kunder/månad</div>
-                </div>
-                <div className="text-center">
-                  <div className="text-2xl font-bold text-blue-600">#1</div>
-                  <div className="text-sm text-gray-600">Google ranking</div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          {/* Stats */}
-          <div className="bg-white rounded-2xl p-8 shadow-lg">
-            <h3 className="text-2xl font-bold text-gray-900 mb-8 text-center">
-              Våra Resultat i Siffror
-            </h3>
-            <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
-              <div className="text-center">
-                <div className="text-3xl font-bold text-indigo-600 mb-2">200+</div>
-                <div className="text-gray-600">Nöjda kunder</div>
-              </div>
-              <div className="text-center">
-                <div className="text-3xl font-bold text-green-600 mb-2">350%</div>
-                <div className="text-gray-600">Genomsnittlig tillväxt</div>
-              </div>
-              <div className="text-center">
-                <div className="text-3xl font-bold text-purple-600 mb-2">30 dagar</div>
-                <div className="text-gray-600">Tid till första resultat</div>
-              </div>
-              <div className="text-center">
-                <div className="text-3xl font-bold text-orange-600 mb-2">5.0</div>
-                <div className="text-gray-600 flex items-center justify-center gap-1">
-                  <Star className="w-4 h-4 fill-yellow-400 text-yellow-400" />
-                  Stjärnor i betyg
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div className="text-center mt-12">
-            <button 
-              onClick={() => scrollToSection('quiz')}
-              className="bg-indigo-600 text-white px-8 py-4 rounded-full text-lg font-semibold hover:bg-indigo-700 transition-colors shadow-lg"
-            >
-              Se Vad Vi Kan Göra För Dig
-            </button>
-          </div>
-        </div>
-      </section>
-
-      {/* Quiz Section */}
-      <section id="quiz" className="py-20 bg-white">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-12">
-            <h2 className="text-4xl font-bold text-gray-900 mb-4">
-              Upptäck Din Tillväxtpotential
-            </h2>
-            <p className="text-xl text-gray-600">
-              Svara på 3 snabba frågor och få en personlig strategi för ditt företag
-            </p>
-          </div>
-
-          <div className="bg-gradient-to-br from-indigo-50 to-purple-50 rounded-2xl p-8 shadow-lg">
-            {!quiz.isComplete && quiz.currentQuestion === 0 && quiz.answers.length === 0 && (
-              <div className="text-center">
-                <div className="w-24 h-24 bg-indigo-600 rounded-full flex items-center justify-center mx-auto mb-6">
-                  <MessageSquare className="w-12 h-12 text-white" />
-                </div>
-                <h3 className="text-2xl font-bold text-gray-900 mb-4">
-                  Redo att Upptäcka Din Potential?
-                </h3>
-                <p className="text-gray-600 mb-8">
-                  Det här quizet tar bara 2 minuter och ger dig en skräddarsydd strategi för att växa ditt företag.
-                </p>
-                <button
-                  onClick={startQuiz}
-                  className="bg-indigo-600 text-white px-8 py-4 rounded-full text-lg font-semibold hover:bg-indigo-700 transition-colors"
-                >
-                  Starta Quiz
-                </button>
-              </div>
-            )}
-
-            {!quiz.isComplete && quiz.answers.length > 0 && (
-              <div>
-                <div className="mb-8">
-                  <div className="flex justify-between items-center mb-4">
-                    <h3 className="text-xl font-semibold text-gray-900">
-                      Fråga {quiz.currentQuestion + 1} av {quizQuestions.length}
-                    </h3>
-                    <button
-                      onClick={resetQuiz}
-                      className="text-gray-500 hover:text-gray-700 text-sm"
-                    >
-                      Börja om
-                    </button>
-                  </div>
-                  <div className="w-full bg-gray-200 rounded-full h-2">
-                    <div 
-                      className="bg-indigo-600 h-2 rounded-full transition-all duration-500"
-                      style={{ width: `${((quiz.currentQuestion + 1) / quizQuestions.length) * 100}%` }}
-                    />
-                  </div>
-                </div>
-
-                <div className="mb-8">
-                  <h4 className="text-xl font-semibold text-gray-900 mb-6">
-                    {quizQuestions[quiz.currentQuestion].question}
-                  </h4>
-                  <div className="space-y-4">
-                    {quizQuestions[quiz.currentQuestion].options.map((option, index) => (
-                      <button
-                        key={index}
-                        onClick={() => handleQuizAnswer(option.points)}
-                        className="w-full text-left p-4 border-2 border-gray-200 rounded-lg hover:border-indigo-300 hover:bg-indigo-50 transition-colors"
-                      >
-                        {option.text}
-                      </button>
-                    ))}
-                  </div>
-                </div>
-              </div>
-            )}
-
-            {quiz.isComplete && !quiz.showForm && (
-              <div className="text-center">
-                <CheckCircle className="w-16 h-16 text-green-500 mx-auto mb-4" />
-                <h3 className="text-2xl font-bold text-gray-900 mb-4">Quiz Slutfört!</h3>
-                <button
-                  onClick={() => setQuiz({...quiz, showForm: true})}
-                  className="bg-indigo-600 text-white px-8 py-4 rounded-full text-lg font-semibold hover:bg-indigo-700 transition-colors"
-                >
-                  Se Mitt Resultat
-                </button>
-              </div>
-            )}
-
-            {quiz.showForm && !quiz.formSubmitted && (
-              <div>
-                <div className="text-center mb-8">
-                  <div className={`text-xl font-bold mb-2 ${getQuizResult().color}`}>
-                    {getQuizResult().title}
-                  </div>
-                  <p className="text-gray-600">
-                    {getQuizResult().description}
-                  </p>
-                </div>
-
-                <form onSubmit={submitQuizForm} className="space-y-6">
-                  <h4 className="text-xl font-semibold text-gray-900 text-center">
-                    Få Din Personliga Analys
-                  </h4>
-                  
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <input
-                      type="text"
-                      placeholder="Namn *"
-                      value={quizForm.name}
-                      onChange={(e) => setQuizForm({...quizForm, name: e.target.value})}
-                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
-                      required
-                    />
-                    <input
-                      type="email"
-                      placeholder="E-post *"
-                      value={quizForm.email}
-                      onChange={(e) => setQuizForm({...quizForm, email: e.target.value})}
-                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
-                      required
-                    />
-                  </div>
-
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <input
-                      type="tel"
-                      placeholder="Telefonnummer (valfritt)"
-                      value={quizForm.phone}
-                      onChange={(e) => setQuizForm({...quizForm, phone: e.target.value})}
-                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
-                    />
-                    <input
-                      type="text"
-                      placeholder="Företag *"
-                      value={quizForm.company}
-                      onChange={(e) => setQuizForm({...quizForm, company: e.target.value})}
-                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
-                      required
-                    />
-                  </div>
-
-                  <input
-                    type="url"
-                    placeholder="Hemsida (valfritt)"
-                    value={quizForm.website}
-                    onChange={(e) => setQuizForm({...quizForm, website: e.target.value})}
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
-                  />
-
-                  <button
-                    type="submit"
-                    disabled={isSubmitting}
-                    className="w-full bg-indigo-600 text-white py-4 rounded-lg text-lg font-semibold hover:bg-indigo-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
-                  >
-                    {isSubmitting ? 'Skickar...' : 'Få min personliga analys →'}
-                  </button>
-
-                  <p className="text-sm text-gray-500 text-center">
-                    Du får din personliga analys och strategiförslag inom 24 timmar
-                  </p>
-                </form>
-              </div>
-            )}
-
-            {quiz.formSubmitted && (
-              <div className="text-center">
-                <CheckCircle className="w-16 h-16 text-green-500 mx-auto mb-4" />
-                <h3 className="text-2xl font-bold text-gray-900 mb-4">Tack!</h3>
-                <p className="text-gray-600 mb-6">
-                  {submitMessage}
-                </p>
-                <button
-                  onClick={resetQuiz}
-                  className="bg-indigo-600 text-white px-6 py-3 rounded-lg hover:bg-indigo-700 transition-colors"
-                >
-                  Gör Quiz Igen
-                </button>
-              </div>
-            )}
-          </div>
-        </div>
-      </section>
-
-      {/* Contact Section */}
-      <section id="contact" className="py-20 bg-gray-50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold text-gray-900 mb-4">
-              Redo att Börja? Låt Oss Prata!
-            </h2>
-            <p className="text-xl text-gray-600">
-              30 dagars garanti - Vi fyller din kalender eller du får pengarna tillbaka
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
-            {/* Contact Form */}
-            <div className="bg-white rounded-2xl p-8 shadow-lg">
-              <h3 className="text-2xl font-bold text-gray-900 mb-6">
-                Boka Gratis Konsultation
-              </h3>
-              
-              <form onSubmit={submitContactForm} className="space-y-6">
-                <input
-                  type="text"
-                  placeholder="Namn *"
-                  value={contactForm.name}
-                  onChange={(e) => setContactForm({...contactForm, name: e.target.value})}
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
-                  required
-                />
-                
-                <input
-                  type="email"
-                  placeholder="E-post *"
-                  value={contactForm.email}
-                  onChange={(e) => setContactForm({...contactForm, email: e.target.value})}
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
-                  required
-                />
-                
-                <input
-                  type="tel"
-                  placeholder="Telefonnummer *"
-                  value={contactForm.phone}
-                  onChange={(e) => setContactForm({...contactForm, phone: e.target.value})}
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
-                  required
-                />
-
-                <button
-                  type="submit"
-                  disabled={isSubmitting}
-                  className="w-full bg-indigo-600 text-white py-4 rounded-lg text-lg font-semibold hover:bg-indigo-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
-                >
-                  {isSubmitting ? 'Skickar...' : (
-                    <>
-                      <ArrowRight className="w-5 h-5" />
-                      Boka Gratis Konsultation
-                    </>
-                  )}
-                </button>
-              </form>
-
-              {submitMessage && (
-                <div className="mt-4 p-4 bg-green-50 border border-green-200 rounded-lg">
-                  <p className="text-green-800">{submitMessage}</p>
-                </div>
-              )}
-            </div>
-
-            {/* Contact Info */}
-            <div className="space-y-8">
-              <div className="bg-white rounded-2xl p-8 shadow-lg">
-                <h3 className="text-2xl font-bold text-gray-900 mb-6">
-                  Kontakta Oss Direkt
-                </h3>
-                
-                <div className="space-y-6">
-                  <div className="flex items-center gap-4">
-                    <div className="w-12 h-12 bg-indigo-100 rounded-full flex items-center justify-center">
-                      <Phone className="w-6 h-6 text-indigo-600" />
-                    </div>
-                    <div>
-                      <div className="font-semibold text-gray-900">Ring oss direkt</div>
-                      <a 
-                        href="tel:+46764793683" 
-                        className="text-indigo-600 hover:underline"
-                      >
-                        +46764793683
-                      </a>
-                    </div>
-                  </div>
-
-                  <div className="flex items-center gap-4">
-                    <div className="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center">
-                      <Mail className="w-6 h-6 text-green-600" />
-                    </div>
-                    <div>
-                      <div className="font-semibold text-gray-900">Skicka e-post</div>
-                      <a 
-                        href="mailto:mathias@bahkostudio.live" 
-                        className="text-green-600 hover:underline"
-                      >
-                        mathias@bahkostudio.live
-                      </a>
-                    </div>
-                  </div>
-
-                  <div className="flex items-center gap-4">
-                    <div className="w-12 h-12 bg-purple-100 rounded-full flex items-center justify-center">
-                      <MapPin className="w-6 h-6 text-purple-600" />
-                    </div>
-                    <div>
-                      <div className="font-semibold text-gray-900">Vi hjälper företag i</div>
-                      <div className="text-purple-600">Hela Sverige</div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              <div className="bg-gradient-to-br from-indigo-500 to-purple-600 rounded-2xl p-8 text-white">
-                <h4 className="text-xl font-bold mb-4">30 Dagars Garanti</h4>
-                <p className="mb-4">
-                  Vi är så säkra på våra resultat att vi erbjuder full pengarna-tillbaka-garanti om du inte ser resultat inom 30 dagar.
-                </p>
-                <div className="flex items-center gap-2 text-indigo-200">
-                  <CheckCircle className="w-5 h-5" />
-                  Ingen risk - bara resultat
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Scroll to Top Button */}
-      <button
-        onClick={() => scrollToSection('home')}
-        className="fixed bottom-8 right-8 bg-indigo-600 text-white w-12 h-12 rounded-full shadow-lg hover:bg-indigo-700 transition-colors flex items-center justify-center z-40"
-        aria-label="Scroll to top"
-      >
-        <ChevronDown className="w-6 h-6 rotate-180" />
-      </button>
-
-      {/* Footer */}
-      <footer className="bg-gray-900 text-white py-12">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center">
-            <div className="text-2xl font-bold mb-4">BahkoStudio</div>
-            <p className="text-gray-400 mb-6">
-              Vi fyller din kalender med nya kunder inom 30 dagar - garanterat
+            <p className="text-2xl lg:text-3xl text-gray-700 mb-8 max-w-4xl mx-auto leading-relaxed" itemProp="description">
+              Sluta vänta på att kunder ska hitta dig.
+              <strong className="text-gray-900"> Vi placerar ditt företag framför lokala personer som aktivt söker efter dina tjänster - från och med denna månad.</strong>
             </p>
             
-            <div className="flex justify-center gap-6 mb-8">
+            <div className="bg-gradient-to-r from-orange-50 to-orange-100 border border-orange-200 rounded-2xl p-8 mb-12 max-w-3xl mx-auto shadow-lg">
+              <div className="flex items-center justify-center mb-6">
+                <Zap className="w-8 h-8 text-orange-600 mr-3" />
+                <span className="font-bold text-orange-900 text-xl">Om det inte fungerar, återbetalar vi dig</span>
+              </div>
+              <p className="text-orange-800 mb-6 text-lg">
+                Börja smått och se om vi passar bra. Var flexibel - inga långsiktiga åtaganden krävs.
+              </p>
               <a 
-                href="tel:+46764793683" 
-                className="text-gray-400 hover:text-white transition-colors"
+                href="https://studio--kundflde.us-central1.hosted.app/" 
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center text-orange-600 font-semibold hover:text-orange-700 transition-colors text-lg"
               >
-                <Phone className="w-6 h-6" />
-              </a>
-              <a 
-                href="mailto:mathias@bahkostudio.live" 
-                className="text-gray-400 hover:text-white transition-colors"
-              >
-                <Mail className="w-6 h-6" />
+               Gratis guide <ExternalLink className="w-5 h-5 ml-2" />
               </a>
             </div>
 
-            <div className="border-t border-gray-800 pt-8">
-              <p className="text-gray-400 text-sm">
-                © 2024 BahkoStudio. Alla rättigheter förbehållna.
+            <div className="flex flex-col sm:flex-row gap-8 justify-center items-center mb-16">
+              <button className="bg-gradient-to-r from-gray-900 to-gray-800 hover:from-gray-800 hover:to-gray-700 text-white px-12 py-6 rounded-xl font-semibold text-xl transition-all duration-300 transform hover:scale-105 shadow-xl">
+                Börja idag - 30 dagars test
+              </button>
+              
+              <div className="text-center">
+                <div className="flex items-center text-gray-600 mb-2">
+                  <Search className="w-5 h-5 mr-2" />
+                  <span className="font-medium">Knappast någon av din tid krävs</span>
+                </div>
+                <p className="text-gray-500 text-sm">
+                  Du gör bara vad du är bäst på: omvandla telefonsamtal till kunder
+                </p>
+              </div>
+            </div>
+
+            {/* Client Testimonials in Hero */}
+            <div className="border-t border-gray-200 pt-16">
+              <p className="text-gray-500 mb-8 text-lg">Fallstudier - Vi skapade deras hemsidor</p>
+              
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto">
+                <div className="bg-white/95 backdrop-blur-md rounded-3xl p-8 shadow-xl border border-white/30 relative overflow-hidden hover:shadow-2xl transition-all duration-300 transform hover:scale-105" itemScope itemType="https://schema.org/Review">
+                  <div className="absolute inset-0 opacity-5">
+                    <img 
+                      src="/api/placeholder/400/300" 
+                      alt="BahkoStudio Hemsida" 
+                      className="w-full h-full object-cover"
+                      style={{
+                        background: 'linear-gradient(135deg, #1e293b 0%, #f97316 80%)',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        color: 'white',
+                        fontSize: '18px',
+                        fontWeight: 'bold'
+                      }}
+                    />
+                  </div>
+                  <div className="relative z-10 bg-white/80 backdrop-blur-sm rounded-2xl p-6 border border-white/40">
+                    <div className="flex text-yellow-500 mb-4 justify-center">
+                      {[...Array(5)].map((_, i) => (
+                        <Star key={i} className="w-5 h-5 fill-current drop-shadow-sm" />
+                      ))}
+                    </div>
+                    <blockquote className="text-gray-800 mb-4 text-lg font-medium text-center leading-relaxed" itemProp="reviewBody">
+                      "BahkoStudio skapade vår hemsida och fördubblade vår onlineförsäljning på 6 veckor med SEO och Google Ads."
+                    </blockquote>
+                    <div className="text-center" itemProp="author" itemScope itemType="https://schema.org/Person">
+                      <div className="text-gray-900 font-bold text-lg mb-1" itemProp="name">BahkoStudio</div>
+                      <a href="https://maykaskitchen.se" target="_blank" rel="noopener noreferrer" className="text-orange-600 hover:text-orange-700 text-sm">
+                        Automatiseringsbyrå →
+                      </a>
+                    </div>
+                    <meta itemProp="ratingValue" content="5" />
+                  </div>
+                </div>
+                
+                <div className="bg-white/95 backdrop-blur-md rounded-3xl p-8 shadow-xl border border-white/30 relative overflow-hidden hover:shadow-2xl transition-all duration-300 transform hover:scale-105" itemScope itemType="https://schema.org/Review">
+                  <div className="absolute inset-0 opacity-5">
+                    <img 
+                      src="/api/placeholder/400/300" 
+                      alt="Matbodens Hemsida" 
+                      className="w-full h-full object-cover"
+                      style={{
+                        background: 'linear-gradient(135deg, #7c3aed 0%, #f97316 80%)',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        color: 'white',
+                        fontSize: '18px',
+                        fontWeight: 'bold'
+                      }}
+                    />
+                  </div>
+                  <div className="relative z-10 bg-white/80 backdrop-blur-sm rounded-2xl p-6 border border-white/40">
+                    <div className="flex text-yellow-500 mb-4 justify-center">
+                      {[...Array(5)].map((_, i) => (
+                        <Star key={i} className="w-5 h-5 fill-current drop-shadow-sm" />
+                      ))}
+                    </div>
+                    <blockquote className="text-gray-800 mb-4 text-lg font-medium text-center leading-relaxed" itemProp="reviewBody">
+                      "Från 0 till 200+ kunder per månad efter BahkoStudio byggde vår hemsida och körde Google Ads."
+                    </blockquote>
+                    <div className="text-center" itemProp="author" itemScope itemType="https://schema.org/Person">
+                      <div className="text-gray-900 font-bold text-lg mb-1" itemProp="name">Matbodens</div>
+                      <a href="https://matbodens.se" target="_blank" rel="noopener noreferrer" className="text-orange-600 hover:text-orange-700 text-sm">
+                        Restaurang →
+                      </a>
+                    </div>
+                    <meta itemProp="ratingValue" content="5" />
+                  </div>
+                </div>
+                
+                <div className="bg-white/95 backdrop-blur-md rounded-3xl p-8 shadow-xl border border-white/30 relative overflow-hidden hover:shadow-2xl transition-all duration-300 transform hover:scale-105" itemScope itemType="https://schema.org/Review">
+                  <div className="absolute inset-0 opacity-5">
+                    <img 
+                      src="/api/placeholder/400/300" 
+                      alt="Maykas Kitchen Hemsida" 
+                      className="w-full h-full object-cover"
+                      style={{
+                        background: 'linear-gradient(135deg, #0891b2 0%, #f97316 80%)',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        color: 'white',
+                        fontSize: '18px',
+                        fontWeight: 'bold'
+                      }}
+                    />
+                  </div>
+                  <div className="relative z-10 bg-white/80 backdrop-blur-sm rounded-2xl p-6 border border-white/40">
+                    <div className="flex text-yellow-500 mb-4 justify-center">
+                      {[...Array(5)].map((_, i) => (
+                        <Star key={i} className="w-5 h-5 fill-current drop-shadow-sm" />
+                      ))}
+                    </div>
+                    <blockquote className="text-gray-800 mb-4 text-lg font-medium text-center leading-relaxed" itemProp="reviewBody">
+                      "BahkoStudio byggde vår hemsida och SEO-strategi. Nu kommer kunder direkt från Google 24/7!"
+                    </blockquote>
+                    <div className="text-center" itemProp="author" itemScope itemType="https://schema.org/Person">
+                      <div className="text-gray-900 font-bold text-lg mb-1" itemProp="name">Maykas Kitchen</div>
+                      <a href="https://maykaskitchen.se" target="_blank" rel="noopener noreferrer" className="text-orange-600 hover:text-orange-700 text-sm">
+                        Assyrisk matkonst →
+                      </a>
+                    </div>
+                    <meta itemProp="ratingValue" content="5" />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Why BahkoStudio */}
+      <section id="tjanster" className="py-24 bg-white/60 backdrop-blur-sm" itemScope itemType="https://schema.org/Service">
+        <div className="max-w-6xl mx-auto px-6">
+          <div className="text-center mb-20">
+            <h2 className="text-4xl lg:text-5xl font-bold text-gray-900 mb-6" itemProp="name">
+              Hur vi kan hjälpa dig att växa
+            </h2>
+            <p className="text-xl text-gray-600 max-w-2xl mx-auto" itemProp="description">
+              Tre sätt att placera dig framför dina kunder när de letar efter dig
+            </p>
+          </div>
+          
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
+            <div className="text-center group" itemScope itemType="https://schema.org/Service">
+              <div className="w-24 h-24 bg-gradient-to-br from-orange-100 to-orange-200 rounded-full flex items-center justify-center mx-auto mb-8 shadow-lg group-hover:shadow-xl transition-all duration-300 transform group-hover:scale-105">
+                <Search className="w-12 h-12 text-orange-600" />
+              </div>
+              <h3 className="text-2xl font-bold text-gray-900 mb-4" itemProp="name">Landningssidor Som Konverterar</h3>
+              <p className="text-gray-600 text-lg leading-relaxed mb-4" itemProp="description">
+                Vi bygger SEO-optimerade landningssidor och hemsidor som konverterar besökare till kunder. Fullständig teknisk optimering med AEO och GEO-targeting för maximal synlighet.
+              </p>
+              <div className="text-orange-600 font-semibold">Visa upp dig när lokala personer söker efter vad du erbjuder</div>
+            </div>
+            
+            <div className="text-center group" itemScope itemType="https://schema.org/Service">
+              <div className="w-24 h-24 bg-gradient-to-br from-blue-100 to-blue-200 rounded-full flex items-center justify-center mx-auto mb-8 shadow-lg group-hover:shadow-xl transition-all duration-300 transform group-hover:scale-105">
+                <Globe className="w-12 h-12 text-blue-600" />
+              </div>
+              <h3 className="text-2xl font-bold text-gray-900 mb-4" itemProp="name">FB/IG Annonser för att Nå VARJE Lokal Kund</h3>
+              <p className="text-gray-600 text-lg leading-relaxed mb-4" itemProp="description">
+                Professionella Facebook Ads, Google Ads och Instagram-kampanjer. Vi hanterar hela din digitala marketing-strategi från annonsering till leadgenerering.
+              </p>
+              <div className="text-blue-600 font-semibold">Annonser som når kunder där de befinner sig</div>
+            </div>
+            
+            <div className="text-center group" itemScope itemType="https://schema.org/Service">
+              <div className="w-24 h-24 bg-gradient-to-br from-green-100 to-green-200 rounded-full flex items-center justify-center mx-auto mb-8 shadow-lg group-hover:shadow-xl transition-all duration-300 transform group-hover:scale-105">
+                <TrendingUp className="w-12 h-12 text-green-600" />
+              </div>
+              <h3 className="text-2xl font-bold text-gray-900 mb-4" itemProp="name">Nå Top 3 på Google – Helt Gratis</h3>
+              <p className="text-gray-600 text-lg leading-relaxed mb-4" itemProp="description">
+                Bli top 3 på Google Maps helt organiskt – utan att betala för annonser. Syns där dina kunder söker, och låt din synlighet växa över tid.
+              </p>
+              <div className="text-green-600 font-semibold">Långsiktig synlighet utan reklamkostnader</div>
+            </div>
+          </div>
+          
+          {/* Technical Expertise Section */}
+          <div className="mt-24 bg-gradient-to-br from-gray-50 to-blue-50 rounded-3xl p-12 border border-white/20">
+            <div className="text-center mb-12">
+              <h3 className="text-3xl font-bold text-gray-900 mb-4">Fullständig Digital Marketing Expertis</h3>
+              <p className="text-xl text-gray-600">Vi behärskar alla aspekter av modern digital marknadsföring</p>
+            </div>
+            
+            <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-6">
+              <div className="text-center">
+                <div className="bg-white rounded-2xl p-4 shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105">
+                  <div className="text-2xl font-bold text-orange-600 mb-2">SEO</div>
+                  <div className="text-sm text-gray-600">Sökoptimering</div>
+                </div>
+              </div>
+              
+              <div className="text-center">
+                <div className="bg-white rounded-2xl p-4 shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105">
+                  <div className="text-2xl font-bold text-blue-600 mb-2">AEO</div>
+                  <div className="text-sm text-gray-600">Answer Engine</div>
+                </div>
+              </div>
+              
+              <div className="text-center">
+                <div className="bg-white rounded-2xl p-4 shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105">
+                  <div className="text-2xl font-bold text-green-600 mb-2">GEO</div>
+                  <div className="text-sm text-gray-600">Lokal Optimering</div>
+                </div>
+              </div>
+              
+              <div className="text-center">
+                <div className="bg-white rounded-2xl p-4 shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105">
+                  <div className="text-2xl font-bold text-purple-600 mb-2">FB Ads</div>
+                  <div className="text-sm text-gray-600">Facebook Annonser</div>
+                </div>
+              </div>
+              
+              <div className="text-center">
+                <div className="bg-white rounded-2xl p-4 shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105">
+                  <div className="text-2xl font-bold text-red-600 mb-2">Google Ads</div>
+                  <div className="text-sm text-gray-600">Sökannonsering</div>
+                </div>
+              </div>
+              
+              <div className="text-center">
+                <div className="bg-white rounded-2xl p-4 shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105">
+                  <div className="text-2xl font-bold text-indigo-600 mb-2">Marketing</div>
+                  <div className="text-sm text-gray-600">Digital Strategi</div>
+                </div>
+              </div>
+            </div>
+            
+            <div className="mt-12 text-center">
+              <p className="text-lg text-gray-700 max-w-3xl mx-auto leading-relaxed">
+                <strong>Fullservice digital marketing:</strong> Vi optimerar dina landningssidor för SEO, använder AEO för röstassistenter, 
+                kör GEO-targeting för lokala kunder, och hanterar alla dina annonser på Facebook, Google och andra plattformar. 
+                En komplett marketing-lösning under ett tak.
               </p>
             </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Process Section */}
+      <section id="process" className="py-24 bg-gradient-to-br from-slate-50 to-blue-50">
+        <div className="max-w-6xl mx-auto px-6">
+          <div className="text-center mb-20">
+            <h2 className="text-4xl lg:text-5xl font-bold text-gray-900 mb-6">
+              Det är enkelt
+            </h2>
+            <p className="text-xl text-gray-600">Hur vi arbetar</p>
+          </div>
+          
+          <div className="space-y-20">
+            <div className="flex flex-col lg:flex-row items-center gap-16">
+              <div className="lg:w-1/2">
+                <div className="bg-gradient-to-r from-orange-500 to-orange-600 text-white w-20 h-20 rounded-full flex items-center justify-center font-bold text-3xl mb-8 shadow-lg">
+                  1
+                </div>
+                <h3 className="text-3xl font-bold text-gray-900 mb-6">Planera Din Framgång</h3>
+                <p className="text-xl text-gray-600 mb-8">
+                  Vi tar reda på vilka dina kunder är och vad de vill höra innan vi börjar.
+                </p>
+                <div className="text-orange-600 font-semibold text-lg">Kartläggning av målgrupp och strategi</div>
+              </div>
+              <div className="lg:w-1/2 bg-white/80 backdrop-blur-sm rounded-3xl p-12 h-80 flex items-center justify-center shadow-lg border border-white/20">
+                <Target className="w-32 h-32 text-gray-300" />
+              </div>
+            </div>
+
+            <div className="flex flex-col lg:flex-row-reverse items-center gap-16">
+              <div className="lg:w-1/2">
+                <div className="bg-gradient-to-r from-blue-500 to-blue-600 text-white w-20 h-20 rounded-full flex items-center justify-center font-bold text-3xl mb-8 shadow-lg">
+                  2
+                </div>
+                <h3 className="text-3xl font-bold text-gray-900 mb-6">Hantera Allt Dagligen</h3>
+                <p className="text-xl text-gray-600 mb-8">
+                  Vi skapar annonser, schemalägger dem och hanterar alla dina kampanjer så att du inte behöver.
+                </p>
+                <div className="text-blue-600 font-semibold text-lg">Fullständig kampanjhantering</div>
+              </div>
+              <div className="lg:w-1/2 bg-white/80 backdrop-blur-sm rounded-3xl p-12 h-80 flex items-center justify-center shadow-lg border border-white/20">
+                <Zap className="w-32 h-32 text-gray-300" />
+              </div>
+            </div>
+
+            <div className="flex flex-col lg:flex-row items-center gap-16">
+              <div className="lg:w-1/2">
+                <div className="bg-gradient-to-r from-green-500 to-green-600 text-white w-20 h-20 rounded-full flex items-center justify-center font-bold text-3xl mb-8 shadow-lg">
+                  3
+                </div>
+                <h3 className="text-3xl font-bold text-gray-900 mb-6">Spåra Vad Som Fungerar</h3>
+                <p className="text-xl text-gray-600 mb-8">
+                  Vi ser vilka inlägg som lockar kunder och gör mer av det som fungerar.
+                </p>
+                <div className="text-green-600 font-semibold text-lg">Regelbundna samtal för att granska vad som fungerar</div>
+              </div>
+              <div className="lg:w-1/2 bg-white/80 backdrop-blur-sm rounded-3xl p-12 h-80 flex items-center justify-center shadow-lg border border-white/20">
+                <BarChart3 className="w-32 h-32 text-gray-300" />
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Comparison Section - New */}
+      <section className="py-24 bg-white/60 backdrop-blur-sm">
+        <div className="max-w-6xl mx-auto px-6">
+          <div className="text-center mb-20">
+            <h2 className="text-4xl lg:text-5xl font-bold text-gray-900 mb-6">
+              Varför välja BahkoStudio framför alla andra?
+            </h2>
+          </div>
+          
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
+            <div className="bg-red-50 border border-red-200 rounded-2xl p-8">
+              <h3 className="text-2xl font-bold text-red-800 mb-8 text-center">Andra Byråer</h3>
+              <div className="space-y-4">
+                <div className="flex items-center text-red-700">
+                  <X className="w-5 h-5 mr-3 flex-shrink-0" />
+                  <span>Generiska innehållsmallar</span>
+                </div>
+                <div className="flex items-center text-red-700">
+                  <X className="w-5 h-5 mr-3 flex-shrink-0" />
+                  <span>Månatlig rapportering endast</span>
+                </div>
+                <div className="flex items-center text-red-700">
+                  <X className="w-5 h-5 mr-3 flex-shrink-0" />
+                  <span>Separata team för olika plattformar</span>
+                </div>
+                <div className="flex items-center text-red-700">
+                  <X className="w-5 h-5 mr-3 flex-shrink-0" />
+                  <span>Långsiktiga kontrakt krävs</span>
+                </div>
+                <div className="flex items-center text-red-700">
+                  <X className="w-5 h-5 mr-3 flex-shrink-0" />
+                  <span>En-storlek-passar-alla-tillvägagångssätt</span>
+                </div>
+              </div>
+            </div>
+            
+            <div className="bg-green-50 border border-green-200 rounded-2xl p-8">
+              <h3 className="text-2xl font-bold text-green-800 mb-8 text-center">BahkoStudio</h3>
+              <div className="space-y-4">
+                <div className="flex items-center text-green-700">
+                  <CheckCircle className="w-5 h-5 mr-3 flex-shrink-0" />
+                  <span>Om det inte fungerar, återbetalar vi dig</span>
+                </div>
+                <div className="flex items-center text-green-700">
+                  <CheckCircle className="w-5 h-5 mr-3 flex-shrink-0" />
+                  <span>Börja smått och se om vi passar bra</span>
+                </div>
+                <div className="flex items-center text-green-700">
+                  <CheckCircle className="w-5 h-5 mr-3 flex-shrink-0" />
+                  <span>Google, Facebook, Instagram - vi täcker allt</span>
+                </div>
+                <div className="flex items-center text-green-700">
+                  <CheckCircle className="w-5 h-5 mr-3 flex-shrink-0" />
+                  <span>Var flexibel - inga långsiktiga åtaganden krävs</span>
+                </div>
+                <div className="flex items-center text-green-700">
+                  <CheckCircle className="w-5 h-5 mr-3 flex-shrink-0" />
+                  <span>Regelbundna samtal för att granska vad som fungerar</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* FAQ Section - New */}
+      <section className="py-24 bg-gradient-to-br from-slate-50 to-blue-50" itemScope itemType="https://schema.org/FAQPage">
+        <div className="max-w-4xl mx-auto px-6">
+          <div className="text-center mb-20">
+            <h2 className="text-4xl lg:text-5xl font-bold text-gray-900 mb-6">
+              Vanliga Frågor
+            </h2>
+          </div>
+          
+          <div className="space-y-8">
+            <div className="bg-white/80 backdrop-blur-sm rounded-2xl p-8 shadow-lg border border-white/20" itemScope itemType="https://schema.org/Question">
+              <h3 className="text-xl font-bold text-gray-900 mb-4" itemProp="name">Kan ni visa mig exempel på andra företag som mitt som ni har hjälpt?</h3>
+              <div itemScope itemType="https://schema.org/Answer" itemProp="acceptedAnswer">
+                <p className="text-gray-700 text-lg" itemProp="text">Ja, ta gärna en titt på våra fallstudier och klientportfölj.</p>
+              </div>
+            </div>
+            
+            <div className="bg-white/80 backdrop-blur-sm rounded-2xl p-8 shadow-lg border border-white/20" itemScope itemType="https://schema.org/Question">
+              <h3 className="text-xl font-bold text-gray-900 mb-4" itemProp="name">Vad exakt kommer ni att göra för mitt företag?</h3>
+              <div itemScope itemType="https://schema.org/Answer" itemProp="acceptedAnswer">
+                <p className="text-gray-700 text-lg" itemProp="text">Vi kommer att bygga en landningssida som konverterar, få besökare att se den och se till att personerna som faktiskt kontaktar dig screenas först innan de når din inkorg.</p>
+              </div>
+            </div>
+            
+            <div className="bg-white/80 backdrop-blur-sm rounded-2xl p-8 shadow-lg border border-white/20" itemScope itemType="https://schema.org/Question">
+              <h3 className="text-xl font-bold text-gray-900 mb-4" itemProp="name">Hur länge tar det att börja se resultat?</h3>
+              <div itemScope itemType="https://schema.org/Answer" itemProp="acceptedAnswer">
+                <p className="text-gray-700 text-lg" itemProp="text">30-dagarstesten är utformat för att ge dig tillräckligt med resultat för att fatta ett informerat beslut om du vill fortsätta.</p>
+              </div>
+            </div>
+            
+            <div className="bg-white/80 backdrop-blur-sm rounded-2xl p-8 shadow-lg border border-white/20" itemScope itemType="https://schema.org/Question">
+              <h3 className="text-xl font-bold text-gray-900 mb-4" itemProp="name">Hur mycket kommer detta att kosta mig upfront?</h3>
+              <div itemScope itemType="https://schema.org/Answer" itemProp="acceptedAnswer">
+                <p className="text-gray-700 text-lg" itemProp="text">Kontakta oss för individuell prissättning. Inga åtaganden, inga långsiktiga kontrakt. Du kan avbryta månadsvis.</p>
+              </div>
+            </div>
+            
+            <div className="bg-white/80 backdrop-blur-sm rounded-2xl p-8 shadow-lg border border-white/20" itemScope itemType="https://schema.org/Question">
+              <h3 className="text-xl font-bold text-gray-900 mb-4" itemProp="name">Hur mycket av min tid kommer detta att kräva?</h3>
+              <div itemScope itemType="https://schema.org/Answer" itemProp="acceptedAnswer">
+                <p className="text-gray-700 text-lg" itemProp="text">Knappast något. Du gör bara vad du är bäst på: omvandla telefonsamtal till kunder.</p>
+              </div>
+            </div>
+            
+            <div className="bg-white/80 backdrop-blur-sm rounded-2xl p-8 shadow-lg border border-white/20" itemScope itemType="https://schema.org/Question">
+              <h3 className="text-xl font-bold text-gray-900 mb-4" itemProp="name">Behöver jag lära mig hur man gör något av detta tekniska?</h3>
+              <div itemScope itemType="https://schema.org/Answer" itemProp="acceptedAnswer">
+                <p className="text-gray-700 text-lg" itemProp="text">Nej, du behöver absolut inte göra NÅGOT av det tekniska. Det är därför vi har ett team av tränade proffs så att du inte behöver lyfta ett finger.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Final CTA */}
+      <section id="kontakt" className="py-24 bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 text-white relative overflow-hidden">
+        <div className="absolute inset-0 opacity-10">
+          <div className="absolute inset-0" style={{
+            backgroundImage: `radial-gradient(circle at 20% 80%, #3b82f6 0%, transparent 50%), radial-gradient(circle at 80% 20%, #f97316 0%, transparent 50%)`,
+            backgroundSize: '60px 60px'
+          }}></div>
+        </div>
+        
+        <div className="max-w-4xl mx-auto px-6 text-center relative">
+          <h2 className="text-4xl lg:text-6xl font-bold mb-8">
+            Börja idag - 30 dagars test
+          </h2>
+          <p className="text-2xl text-gray-300 mb-12 leading-relaxed">
+            Redo att fylla din kalender med nya kunder?<br />
+            Vi visar dig exakt hur inom 30 dagar.
+          </p>
+          
+          <div className="bg-white/10 backdrop-blur-sm rounded-3xl p-10 mb-12 max-w-lg mx-auto border border-white/20">
+            <form onSubmit={handleContactSubmit} className="space-y-6">
+              <input
+                type="text"
+                name="name"
+                placeholder="Ditt namn"
+                required
+                className="w-full px-8 py-5 rounded-xl bg-white/90 backdrop-blur-sm text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-orange-500 text-lg shadow-lg"
+              />
+              <input
+                type="email"
+                name="email"
+                placeholder="Din e-post"
+                required
+                className="w-full px-8 py-5 rounded-xl bg-white/90 backdrop-blur-sm text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-orange-500 text-lg shadow-lg"
+              />
+              <input
+                type="tel"
+                name="phone"
+                placeholder="Telefonnummer"
+                className="w-full px-8 py-5 rounded-xl bg-white/90 backdrop-blur-sm text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-orange-500 text-lg shadow-lg"
+              />
+              <button
+                type="submit"
+                className="w-full bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white py-6 rounded-xl font-bold text-xl transition-all duration-300 transform hover:scale-105 shadow-xl flex items-center justify-center group"
+              >
+                Starta 30-dagars test →
+                <ArrowRight className="w-6 h-6 ml-3 group-hover:translate-x-1 transition-transform" />
+              </button>
+            </form>
+            
+            <div className="mt-10 text-sm text-gray-300">
+              <div className="flex items-center justify-center space-x-8">
+                <div className="flex items-center">
+                  <Shield className="w-5 h-5 mr-2" />
+                  <span>Pengarna-tillbaka-garanti</span>
+                </div>
+                <div className="flex items-center">
+                  <CheckCircle className="w-5 h-5 mr-2" />
+                  <span>Inga långsiktiga kontrakt</span>
+                </div>
+                <div className="flex items-center">
+                  <Zap className="w-5 h-5 mr-2" />
+                  <span>Resultat inom 30 dagar</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <div className="text-gray-400 text-lg">
+            Vi ser till att vi kan leverera dessa resultat för ditt exakta företag · Ingen bindningstid · Pengarna-tillbaka-garanti
+          </div>
+        </div>
+      </section>
+
+      {/* Footer */}
+      <footer className="bg-black text-white py-20">
+        <div className="max-w-6xl mx-auto px-6">
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-12">
+            <div>
+              <div className="flex items-center mb-8">
+                <img 
+                  src="https://j0bzpddd4j.ufs.sh/f/bwjssIq7FWHCisV54LEMpqflOXSIZd3wu9KziagAHJkL4Wb5" 
+                  alt="BahkoStudio Logo" 
+                  className="h-10 mr-4"
+                />
+                <h3 className="text-2xl font-bold">BahkoStudio</h3>
+              </div>
+              <p className="text-gray-400 text-lg">
+                Vi automatiserar din kundtillströmning med webbsidor som säljer.
+              </p>
+              <p className="text-gray-400 mt-4">
+                <a 
+                  href="https://www.bahkostudio.live" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="hover:text-white transition-colors"
+                >
+                  Vill du ha hjälp med automatisering klicka på länken
+                </a>
+              </p>
+            </div>
+            
+            <div>
+              <h4 className="font-bold mb-8 text-lg">Tjänster</h4>
+              <ul className="space-y-4 text-gray-400">
+                <li>Landningssidor</li>
+                <li>SEO-optimering</li>
+                <li>Kundflödesautomation</li>
+                <li>Konverteringsoptimering</li>
+              </ul>
+            </div>
+            
+            <div>
+              <h4 className="font-bold mb-8 text-lg">Support</h4>
+              <ul className="space-y-4 text-gray-400">
+                <li>Kontakta oss</li>
+                <li>48h-garanti</li>
+                <li>Automatiseringguide</li>
+                <li>24/7 Support</li>
+              </ul>
+            </div>
+            
+            <div>
+              <h4 className="font-bold mb-8 text-lg">Kontakt</h4>
+              <div className="space-y-6 text-gray-400">
+                <div className="flex items-center">
+                  <Phone className="w-6 h-6 mr-4" />
+                  <a href="tel:+46764793683" className="hover:text-white transition-colors text-lg">
+                    076-479 36 83
+                  </a>
+                </div>
+                <div className="flex items-center">
+                  <Mail className="w-6 h-6 mr-4" />
+                  <a href="mailto:mathias@bahkostudio.live" className="hover:text-white transition-colors text-lg">
+                    mathias@bahkostudio.live
+                  </a>
+                </div>
+                <div>
+                  <a 
+                    href="https://wa.me/+46764793683" 
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center text-green-400 hover:text-green-300 transition-colors text-lg"
+                  >
+                    <span className="mr-3 text-xl">💬</span> WhatsApp
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <div className="border-t border-gray-800 mt-16 pt-10 text-center text-gray-400">
+            <p>&copy; 2024 BahkoStudio. Alla rättigheter förbehållna.</p>
+            <p className="mt-4">
+              <a 
+                href="https://www.bahkostudio.live" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="hover:text-white transition-colors"
+              >
+                Vill du ha hjälp med automatisering klicka på länken
+              </a>
+            </p>
           </div>
         </div>
       </footer>
