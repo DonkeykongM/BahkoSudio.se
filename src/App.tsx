@@ -401,7 +401,7 @@ function App() {
               </div>
               <h3 className="text-2xl font-bold text-gray-900 mb-4" itemProp="name">Landningssidor Som Konverterar</h3>
               <p className="text-gray-600 text-lg leading-relaxed mb-4" itemProp="description">
-                Vi bygger webbsidor som konverterar besökare till kunder, får besökare att se den och screenas först innan de når din inkorg.
+                Vi bygger SEO-optimerade landningssidor och hemsidor som konverterar besökare till kunder. Fullständig teknisk optimering med AEO och GEO-targeting för maximal synlighet.
               </p>
               <div className="text-orange-600 font-semibold">Visa upp dig när lokala personer söker efter vad du erbjuder</div>
             </div>
@@ -412,7 +412,7 @@ function App() {
               </div>
               <h3 className="text-2xl font-bold text-gray-900 mb-4" itemProp="name">FB/IG Annonser för att Nå VARJE Lokal Kund</h3>
               <p className="text-gray-600 text-lg leading-relaxed mb-4" itemProp="description">
-                Var överallt. Google, Instagram, Facebook, YouTube... Vi täcker alla plattformar.
+                Professionella Facebook Ads, Google Ads och Instagram-kampanjer. Vi hanterar hela din digitala marketing-strategi från annonsering till leadgenerering.
               </p>
               <div className="text-blue-600 font-semibold">Annonser som når kunder där de befinner sig</div>
             </div>
@@ -426,6 +426,66 @@ function App() {
                 Bli top 3 på Google Maps helt organiskt – utan att betala för annonser. Syns där dina kunder söker, och låt din synlighet växa över tid.
               </p>
               <div className="text-green-600 font-semibold">Långsiktig synlighet utan reklamkostnader</div>
+            </div>
+          </div>
+          
+          {/* Technical Expertise Section */}
+          <div className="mt-24 bg-gradient-to-br from-gray-50 to-blue-50 rounded-3xl p-12 border border-white/20">
+            <div className="text-center mb-12">
+              <h3 className="text-3xl font-bold text-gray-900 mb-4">Fullständig Digital Marketing Expertis</h3>
+              <p className="text-xl text-gray-600">Vi behärskar alla aspekter av modern digital marknadsföring</p>
+            </div>
+            
+            <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-6">
+              <div className="text-center">
+                <div className="bg-white rounded-2xl p-4 shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105">
+                  <div className="text-2xl font-bold text-orange-600 mb-2">SEO</div>
+                  <div className="text-sm text-gray-600">Sökoptimering</div>
+                </div>
+              </div>
+              
+              <div className="text-center">
+                <div className="bg-white rounded-2xl p-4 shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105">
+                  <div className="text-2xl font-bold text-blue-600 mb-2">AEO</div>
+                  <div className="text-sm text-gray-600">Answer Engine</div>
+                </div>
+              </div>
+              
+              <div className="text-center">
+                <div className="bg-white rounded-2xl p-4 shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105">
+                  <div className="text-2xl font-bold text-green-600 mb-2">GEO</div>
+                  <div className="text-sm text-gray-600">Lokal Optimering</div>
+                </div>
+              </div>
+              
+              <div className="text-center">
+                <div className="bg-white rounded-2xl p-4 shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105">
+                  <div className="text-2xl font-bold text-purple-600 mb-2">FB Ads</div>
+                  <div className="text-sm text-gray-600">Facebook Annonser</div>
+                </div>
+              </div>
+              
+              <div className="text-center">
+                <div className="bg-white rounded-2xl p-4 shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105">
+                  <div className="text-2xl font-bold text-red-600 mb-2">Google Ads</div>
+                  <div className="text-sm text-gray-600">Sökannonsering</div>
+                </div>
+              </div>
+              
+              <div className="text-center">
+                <div className="bg-white rounded-2xl p-4 shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105">
+                  <div className="text-2xl font-bold text-indigo-600 mb-2">Marketing</div>
+                  <div className="text-sm text-gray-600">Digital Strategi</div>
+                </div>
+              </div>
+            </div>
+            
+            <div className="mt-12 text-center">
+              <p className="text-lg text-gray-700 max-w-3xl mx-auto leading-relaxed">
+                <strong>Fullservice digital marketing:</strong> Vi optimerar dina landningssidor för SEO, använder AEO för röstassistenter, 
+                kör GEO-targeting för lokala kunder, och hanterar alla dina annonser på Facebook, Google och andra plattformar. 
+                En komplett marketing-lösning under ett tak.
+              </p>
             </div>
           </div>
         </div>
