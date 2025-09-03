@@ -203,7 +203,7 @@ function App() {
                   Starta quiz (60 sek)
                 </button>
               </div>
-            ) : quizCompleted ? (
+                  onClick={() => scrollToSection('quiz')}
               <div className="text-center">
                 <div className="w-20 h-20 bg-gradient-to-br from-green-100 to-green-200 rounded-full flex items-center justify-center mx-auto mb-6">
                   <CheckCircle className="w-10 h-10 text-green-600" />
