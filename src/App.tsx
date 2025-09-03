@@ -423,9 +423,9 @@ function App() {
               </div>
               <h3 className="text-2xl font-bold text-gray-900 mb-4" itemProp="name">Top 3</h3>
               <p className="text-gray-600 text-lg leading-relaxed mb-4" itemProp="description">
-                Vi placerar dig bland de första resultaten när lokala kunder söker efter dina tjänster. Ingen betalar för att vara där - du förtjänar platsen.
+                Nå topp 3 på Google gratis. Bli nummer 1 på Google Maps organiskt.
               </p>
-              <div className="text-green-600 font-semibold">Synlighet som växer över tid, utan reklamkostnader</div>
+              <div className="text-green-600 font-semibold">Långsiktig synlighet utan reklamkostnader</div>
             </div>
           </div>
         </div>
