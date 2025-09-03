@@ -317,9 +317,13 @@ function App() {
 
             <button 
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="md:hidden p-2 rounded-lg hover:bg-gray-100 transition-colors"
+              className="group w-full bg-yellow-400 hover:bg-yellow-300 active:bg-yellow-500 text-black font-bold py-4 px-8 rounded-xl text-lg transition-all duration-200 transform hover:scale-105 active:scale-95 focus:outline-none focus:ring-4 focus:ring-yellow-300 focus:ring-opacity-50 min-h-[56px] flex items-center justify-center shadow-lg hover:shadow-xl"
+              aria-label="Få din gratis webbanalys - öppnas i ny flik"
             >
-              <Menu className="w-6 h-6" />
+              <span className="flex items-center gap-2">
+                <Rocket className="w-5 h-5 group-hover:rotate-12 transition-transform" />
+                Få min gratis analys
+              </span>
             </button>
           </div>
           
