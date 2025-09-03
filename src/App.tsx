@@ -114,14 +114,62 @@ function App() {
       phone: formData.get('phone'),
       company: formData.get('company'),
       website: formData.get('website'),
-      score: localStorage.getItem('bahko-quiz-score')
+      score: localStorage.getItem('bahko-quiz-score'),
+      source: 'quiz'
     };
     
-    console.log('Quiz results submitted:', data);
-    // Här kan du lägga till logik för att skicka data till din backend
+    // Skicka data till Make.com webhook
+    fetch('https://hook.eu2.make.com/6rs6fuf9gqv0yfy4ygupar495u8glmpx', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(data)
+    })
+    .then(response => response.json())
+    .then(result => {
+      console.log('Quiz data sent successfully:', result);
+      resetQuiz();
+      alert('Tack! Vi hör av oss inom kort.');
+    })
+    .catch(error => {
+      console.error('Error sending quiz data:', error);
+      resetQuiz();
+      alert('Tack! Vi hör av oss inom kort.');
+    });
+  };
+  
+  const handleContactSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    const formData = new FormData(e.target as HTMLFormElement);
+    const data = {
+      name: formData.get('name'),
+      email: formData.get('email'),
+      phone: formData.get('phone'),
+      source: 'contact_form'
+    };
     
-    resetQuiz();
-    alert('Tack! Vi hör av oss inom kort.');
+    // Skicka data till Make.com webhook
+    fetch('https://hook.eu2.make.com/6rs6fuf9gqv0yfy4ygupar495u8glmpx', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(data)
+    })
+    .then(response => response.json())
+    .then(result => {
+      console.log('Contact data sent successfully:', result);
+      alert('Tack! Vi hör av oss inom kort med din gratis analys.');
+      // Rensa formuläret
+      (e.target as HTMLFormElement).reset();
+    })
+    .catch(error => {
+      console.error('Error sending contact data:', error);
+      alert('Tack! Vi hör av oss inom kort med din gratis analys.');
+      // Rensa formuläret
+      (e.target as HTMLFormElement).reset();
+    });
   };
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50">
@@ -775,18 +823,24 @@ function App() {
           
           <div className="bg-white/10 backdrop-blur-sm rounded-3xl p-10 mb-12 max-w-lg mx-auto border border-white/20">
             <form className="space-y-6">
+            <form onSubmit={handleContactSubmit} className="space-y-6">
               <input
                 type="text"
+                name="name"
                 placeholder="Ditt namn"
+                required
                 className="w-full px-8 py-5 rounded-xl bg-white/90 backdrop-blur-sm text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-orange-500 text-lg shadow-lg"
               />
               <input
                 type="email"
+                name="email"
                 placeholder="Din e-post"
+                required
                 className="w-full px-8 py-5 rounded-xl bg-white/90 backdrop-blur-sm text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-orange-500 text-lg shadow-lg"
               />
               <input
                 type="tel"
+                name="phone"
                 placeholder="Telefonnummer"
                 className="w-full px-8 py-5 rounded-xl bg-white/90 backdrop-blur-sm text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-orange-500 text-lg shadow-lg"
               />
