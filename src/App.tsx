@@ -7,6 +7,7 @@ function App() {
   const [answers, setAnswers] = useState<number[]>([]);
   const [countdown, setCountdown] = useState(60);
   const [quizStarted, setQuizStarted] = useState(false);
+  const [quizCompleted, setQuizCompleted] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   const quizQuestions = [
@@ -72,6 +73,14 @@ function App() {
     setQuizStarted(true);
   };
 
+  const resetQuiz = () => {
+    setShowQuiz(false);
+    setQuizStarted(false);
+    setQuizCompleted(false);
+    setCurrentQuestion(0);
+    setAnswers([]);
+    setCountdown(60);
+  };
   const handleAnswer = (answerIndex: number) => {
     const newAnswers = [...answers, answerIndex];
     setAnswers(newAnswers);
@@ -90,15 +99,29 @@ function App() {
       }, 0);
 
       localStorage.setItem('bahko-quiz-score', problemScore.toString());
-      setShowQuiz(false);
+      setQuizCompleted(true);
       setQuizStarted(false);
-      // Reset for next time
-      setCurrentQuestion(0);
-      setAnswers([]);
       setCountdown(60);
     }
   };
 
+  const handleQuizSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    const formData = new FormData(e.target as HTMLFormElement);
+    const data = {
+      name: formData.get('name'),
+      phone: formData.get('phone'),
+      company: formData.get('company'),
+      website: formData.get('website'),
+      score: localStorage.getItem('bahko-quiz-score')
+    };
+    
+    console.log('Quiz results submitted:', data);
+    // Här kan du lägga till logik för att skicka data till din backend
+    
+    resetQuiz();
+    alert('Tack! Vi hör av oss inom kort.');
+  };
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50">
       {/* Quiz Popup */}
@@ -112,7 +135,7 @@ function App() {
               <X className="w-6 h-6" />
             </button>
 
-            {!quizStarted ? (
+            {!quizStarted && !quizCompleted ? (
               <div className="text-center">
                 <div className="w-20 h-20 bg-gradient-to-br from-orange-100 to-orange-200 rounded-full flex items-center justify-center mx-auto mb-6">
                   <BarChart3 className="w-10 h-10 text-orange-600" />
@@ -130,6 +153,57 @@ function App() {
                 >
                   Starta quiz (60 sek)
                 </button>
+              </div>
+            ) : quizCompleted ? (
+              <div className="text-center">
+                <div className="w-20 h-20 bg-gradient-to-br from-green-100 to-green-200 rounded-full flex items-center justify-center mx-auto mb-6">
+                  <CheckCircle className="w-10 h-10 text-green-600" />
+                </div>
+                <h3 className="text-2xl font-bold text-gray-900 mb-4">
+                  Din personliga analys är klar!
+                </h3>
+                <p className="text-gray-600 mb-8">
+                  Fyll i dina uppgifter så skickar vi dig en skräddarsydd strategi för att få fler kunder.
+                </p>
+                
+                <form onSubmit={handleQuizSubmit} className="space-y-4">
+                  <input
+                    type="text"
+                    name="name"
+                    placeholder="Ditt namn *"
+                    required
+                    className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent"
+                  />
+                  <input
+                    type="tel"
+                    name="phone"
+                    placeholder="Telefonnummer (valfritt)"
+                    className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent"
+                  />
+                  <input
+                    type="text"
+                    name="company"
+                    placeholder="Företag *"
+                    required
+                    className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent"
+                  />
+                  <input
+                    type="url"
+                    name="website"
+                    placeholder="Hemsida (valfritt)"
+                    className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent"
+                  />
+                  <button
+                    type="submit"
+                    className="w-full bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white py-4 rounded-lg font-semibold text-lg transition-all duration-300 transform hover:scale-105 shadow-lg"
+                  >
+                    Få min personliga analys →
+                  </button>
+                </form>
+                
+                <p className="text-xs text-gray-500 mt-4">
+                  Vi hör av oss inom 24 timmar med din skräddarsydda strategi
+                </p>
               </div>
             ) : (
               <div>
