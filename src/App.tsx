@@ -421,9 +421,9 @@ function App() {
               <div className="w-24 h-24 bg-gradient-to-br from-green-100 to-green-200 rounded-full flex items-center justify-center mx-auto mb-8 shadow-lg group-hover:shadow-xl transition-all duration-300 transform group-hover:scale-105">
                 <TrendingUp className="w-12 h-12 text-green-600" />
               </div>
-              <h3 className="text-2xl font-bold text-gray-900 mb-4" itemProp="name">Top 3</h3>
+              <h3 className="text-2xl font-bold text-gray-900 mb-4" itemProp="name">Nå Top 3 på Google – Helt Gratis</h3>
               <p className="text-gray-600 text-lg leading-relaxed mb-4" itemProp="description">
-                Nå topp 3 på Google gratis. Bli top 3 på Google Maps organiskt.
+                Bli top 3 på Google Maps helt organiskt – utan att betala för annonser. Syns där dina kunder söker, och låt din synlighet växa över tid.
               </p>
               <div className="text-green-600 font-semibold">Långsiktig synlighet utan reklamkostnader</div>
             </div>
