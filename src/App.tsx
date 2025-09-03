@@ -765,6 +765,66 @@ function App() {
               </div>
             </div>
             
+            {/* Kong Mindset Case Study */}
+            <div className="bg-white p-8 rounded-xl shadow-lg">
+              <div className="flex items-start space-x-4">
+                <div className="w-16 h-16 bg-gradient-to-br from-purple-100 to-purple-200 rounded-full flex items-center justify-center flex-shrink-0">
+                  <span className="text-2xl font-bold text-purple-700">K</span>
+                </div>
+                <div>
+                  <div className="flex items-center space-x-2 mb-2">
+                    <h3 className="font-bold text-lg">Kong Mindset</h3>
+                    <a 
+                      href="https://kongmindset.com/" 
+                      target="_blank" 
+                      rel="noopener noreferrer"
+                      className="text-blue-600 hover:text-blue-800 text-sm"
+                    >
+                      kongmindset.com
+                    </a>
+                  </div>
+                  <div className="flex text-yellow-400 mb-3">
+                    {[...Array(5)].map((_, i) => (
+                      <Star key={i} className="w-5 h-5 fill-current" />
+                    ))}
+                  </div>
+                  <p className="text-gray-600 leading-relaxed">
+                    "Vi som ägare är otroligt tacksamma och glada över den kursida som BahkoStudio har byggt – den har överträffat våra förväntningar både i design och funktion. Tack vare deras insats har vi nu en professionell plattform som verkligen speglar vårt varumärke och konverterar besökare till deltagare."
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            {/* Matbodens Case Study */}
+            <div className="bg-white p-8 rounded-xl shadow-lg">
+              <div className="flex items-start space-x-4">
+                <div className="w-16 h-16 bg-gradient-to-br from-green-100 to-green-200 rounded-full flex items-center justify-center flex-shrink-0">
+                  <span className="text-2xl font-bold text-green-700">M</span>
+                </div>
+                <div>
+                  <div className="flex items-center space-x-2 mb-2">
+                    <h3 className="font-bold text-lg">Matbodens</h3>
+                    <a 
+                      href="https://matbodens.se" 
+                      target="_blank" 
+                      rel="noopener noreferrer"
+                      className="text-blue-600 hover:text-blue-800 text-sm"
+                    >
+                      matbodens.se
+                    </a>
+                  </div>
+                  <div className="flex text-yellow-400 mb-3">
+                    {[...Array(5)].map((_, i) => (
+                      <Star key={i} className="w-5 h-5 fill-current" />
+                    ))}
+                  </div>
+                  <p className="text-gray-600 leading-relaxed">
+                    "Från 0 till 200+ kunder per månad efter BahkoStudio byggde vår hemsida och körde Google Ads. Deras expertis inom digital marknadsföring har transformerat vår verksamhet."
+                  </p>
+                </div>
+              </div>
+            </div>
+            
             <div className="bg-white/80 backdrop-blur-sm rounded-2xl p-8 shadow-lg border border-white/20" itemScope itemType="https://schema.org/Question">
               <h3 className="text-xl font-bold text-gray-900 mb-4" itemProp="name">Vad exakt kommer ni att göra för mitt företag?</h3>
               <div itemScope itemType="https://schema.org/Answer" itemProp="acceptedAnswer">
