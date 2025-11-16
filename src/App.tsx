@@ -126,6 +126,38 @@ export default function App() {
     {
       question: "Kan ni hjälpa till med texterna och bilderna?",
       answer: "Ja! Vi kan hjälpa dig skapa engagerande texter som säljer, eller arbeta med det innehåll du redan har. Vi använder professionella stockfotos från Pexels eller kan integrera dina egna bilder och material."
+    },
+    {
+      question: "Vad är er 30-dagars garanti?",
+      answer: "Vi är så säkra på våra resultat att vi erbjuder 30 dagars garanti. Om du inte ser märkbara förbättringar i ditt företag inom 30 dagar får du pengarna tillbaka. Inga krångliga villkor."
+    },
+    {
+      question: "Hur fungerar Google Ads-kampanjer?",
+      answer: "Vi skapar och hanterar Google Ads-kampanjer som placerar ditt företag framför kunder som aktivt söker efter dina tjänster. Du betalar bara när någon klickar på din annons. Vi optimerar kontinuerligt för bästa ROI."
+    },
+    {
+      question: "Kan ni ranka mitt företag top 3 på Google Maps?",
+      answer: "Ja! Med vår lokala SEO-strategi rankar vi ditt företag top 3 på Google Maps inom 90 dagar. Detta ökar din synlighet dramatiskt för lokala kunder som söker efter dina tjänster i ditt område."
+    },
+    {
+      question: "Vad kostar det att bygga en app?",
+      answer: "Priset för en app varierar beroende på funktionalitet och komplexitet. En enkel app börjar från 50 000 kr, medan mer avancerade appar med backend, betalningar och användarkonton kan kosta 100 000-200 000 kr. Vi ger alltid en kostnadsfri offert."
+    },
+    {
+      question: "Erbjuder ni reklamfilmer och videoproduktion?",
+      answer: "Ja! Vi producerar professionella reklamfilmer för sociala medier, YouTube och din hemsida. Från koncept till färdig film – vi hjälper dig berätta din historia på ett sätt som engagerar och konverterar."
+    },
+    {
+      question: "Hur snabbt kan jag få nya kunder?",
+      answer: "Med våra Google Ads-kampanjer kan du börja få nya leads inom 24-48 timmar efter lansering. För organisk SEO och Google Maps ranking ser du resultat inom 30-90 dagar. Vi fokuserar på snabba, mätbara resultat."
+    },
+    {
+      question: "Jobbar ni med alla branscher?",
+      answer: "Vi är specialiserade på lokala företag som restauranger, frisörer, tandläkare, hantverkare, gym och tjänsteföretag. Vår expertis ligger i att hjälpa brick-and-mortar företag att dominera sin lokala marknad online."
+    },
+    {
+      question: "Vad skiljer er från andra webbbyråer?",
+      answer: "Vi fokuserar på resultat, inte bara snygga hemsidor. Med vår 30-dagars garanti, beprövade strategier för lokal SEO och paid ads, samt vår specialisering på lokala företag, levererar vi mätbara resultat som fyller din kalender med nya kunder."
     }
   ];
 
@@ -135,7 +167,7 @@ export default function App() {
       <nav className="fixed top-0 left-0 right-0 z-50 glass-card border-b border-white/20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-20">
-            <div className="flex items-center gap-4">
+            <div className="flex items-center gap-2">
               <img
                 src="https://nikjm8tf0e.ufs.sh/f/mNFirk6dCRarzegIlqhRqJO8ZrmDNjg4Sc2WzeU9pnIB7Kub"
                 alt="BahkoStudio Logo"
@@ -249,7 +281,7 @@ export default function App() {
               Dominera.
             </h2>
             <p className="text-xl text-gray-600 max-w-2xl mx-auto font-normal">
-              Stop waiting for customers to find you. <span className="font-semibold text-gray-800">Be everywhere they look.</span>
+              Sluta vänta på att kunder ska hitta dig. <span className="font-semibold text-gray-800">Var överallt där de letar.</span>
             </p>
           </div>
 
@@ -262,7 +294,7 @@ export default function App() {
                 </div>
                 <h3 className="text-2xl font-bold text-gray-900 mb-4">Hemsidor & Appar</h3>
                 <p className="text-gray-600 mb-6 leading-relaxed font-medium">
-                  Show up professional. Work smart. Impress every visitor.
+                  Visa upp dig professionellt. Jobba smart. Imponera på varje besökare.
                 </p>
                 <ul className="space-y-3 text-gray-600">
                   <li className="flex items-center text-sm font-medium"><div className="w-1.5 h-1.5 bg-indigo-500 rounded-full mr-3"></div>Hemsidor som konverterar</li>
@@ -278,9 +310,9 @@ export default function App() {
                 <div className="w-16 h-16 bg-gradient-to-br from-emerald-500 to-teal-600 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 group-hover:rotate-3 transition-all duration-300">
                   <Star className="w-8 h-8 text-white" />
                 </div>
-                <h3 className="text-2xl font-bold text-gray-900 mb-4">Paid Ads Som Ger ROI</h3>
+                <h3 className="text-2xl font-bold text-gray-900 mb-4">Annonser Som Ger ROI</h3>
                 <p className="text-gray-600 mb-6 leading-relaxed font-medium">
-                  Reach every local customer actively searching for your services.
+                  Nå varje lokal kund som aktivt söker efter dina tjänster.
                 </p>
                 <ul className="space-y-3 text-gray-600">
                   <li className="flex items-center text-sm font-medium"><div className="w-1.5 h-1.5 bg-emerald-500 rounded-full mr-3"></div>Google Ads expertis</li>
@@ -298,7 +330,7 @@ export default function App() {
                 </div>
                 <h3 className="text-2xl font-bold text-gray-900 mb-4">Rank #1 På Google</h3>
                 <p className="text-gray-600 mb-6 leading-relaxed font-medium">
-                  Top 3 på Google Maps inom 90 dagar. Guaranteed organic visibility.
+                  Top 3 på Google Maps inom 90 dagar. Garanterad organisk synlighet.
                 </p>
                 <ul className="space-y-3 text-gray-600">
                   <li className="flex items-center text-sm font-medium"><div className="w-1.5 h-1.5 bg-pink-500 rounded-full mr-3"></div>Google Maps ranking</li>
@@ -341,7 +373,18 @@ export default function App() {
                 <div className="absolute -top-2 -right-2 w-6 h-6 bg-blue-600 rounded-full"></div>
               </div>
               <h3 className="text-xl font-semibold text-gray-900 mb-3">Kostnadsfri Konsultation</h3>
-              <p className="text-gray-600">Vi analyserar din nuvarande situation och identifierar förbättringsområden</p>
+              <p className="text-gray-600 mb-4">Vi analyserar din nuvarande situation och identifierar förbättringsområden</p>
+              <button
+                onClick={scrollToContact}
+                className="min-h-[44px] px-6 py-3 bg-gradient-to-r from-blue-600 to-indigo-600 text-white rounded-full font-semibold hover:shadow-lg hover:scale-105 transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 inline-flex items-center gap-2"
+                aria-label="Kontakta oss för kostnadsfri konsultation"
+              >
+                Kontakta Oss
+                <ArrowRight className="w-4 h-4" />
+              </button>
+              <p className="text-xs text-gray-500 mt-3 max-w-xs mx-auto">
+                I meddelande: skriv "kostnadsfri konsultation" med din hemsida så löser vi det gratis
+              </p>
             </div>
 
             <div className="text-center">
