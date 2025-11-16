@@ -306,8 +306,8 @@ export default function App() {
               </blockquote>
               <div className="border-t pt-6">
                 <div className="text-center">
-                  <div className="text-3xl font-bold text-green-600 mb-1">200%</div>
-                  <div className="text-sm text-gray-500">Ökning i försäljning</div>
+                  <div className="text-3xl font-bold text-orange-600 mb-1">Professionell</div>
+                  <div className="text-sm text-gray-500">Landningssida & SEO</div>
                 </div>
               </div>
             </div>
