@@ -340,12 +340,12 @@ export default function App() {
                 ))}
               </div>
               <blockquote className="text-gray-600 italic mb-6">
-                "BahkoStudio fördubblade vår onlineförsäljning på 6 veckor. Deras landningssida och SEO-strategi har varit fantastisk för vårt företag."
+                "BahkoStudio skapade en modern och professionell webbsida för vår restaurang. Designen är vacker och visar verkligen upp vår mat på bästa sätt."
               </blockquote>
               <div className="border-t pt-6">
                 <div className="text-center">
-                  <div className="text-3xl font-bold text-orange-600 mb-1">Professionell</div>
-                  <div className="text-sm text-gray-500">Landningssida & SEO</div>
+                  <div className="text-3xl font-bold text-orange-600 mb-1">Modern Design</div>
+                  <div className="text-sm text-gray-500">Restaurang Webbsida</div>
                 </div>
               </div>
             </div>
