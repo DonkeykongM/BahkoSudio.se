@@ -135,13 +135,13 @@ export default function App() {
       <nav className="fixed top-0 left-0 right-0 z-50 glass-card border-b border-white/20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-20">
-            <div className="flex items-center gap-3">
+            <div className="flex items-center gap-4">
               <img
                 src="https://nikjm8tf0e.ufs.sh/f/mNFirk6dCRarzegIlqhRqJO8ZrmDNjg4Sc2WzeU9pnIB7Kub"
                 alt="BahkoStudio Logo"
-                className="h-12 w-12 object-contain"
+                className="h-16 w-16 object-contain"
               />
-              <h1 className="text-2xl font-bold bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 bg-clip-text text-transparent">
+              <h1 className="text-3xl font-bold bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 bg-clip-text text-transparent">
                 BahkoStudio
               </h1>
             </div>
@@ -149,10 +149,10 @@ export default function App() {
               <button
                 onClick={openAnalysisLink}
                 className="min-h-[48px] px-6 bg-gradient-to-r from-indigo-600 to-purple-600 text-white rounded-full font-semibold hover:shadow-xl hover:scale-105 transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2 group"
-                aria-label="Få en gratis guide värd 799 kr"
+                aria-label="Ladda ner gratis guide värd 799 kr"
               >
-                <span className="flex items-center gap-2">
-                  Få Gratis Guide (799 kr)
+                <span className="flex items-center gap-2 font-bold">
+                  Gratis Guide (799 kr)
                   <span className="group-hover:translate-x-1 transition-transform duration-300">→</span>
                 </span>
               </button>
@@ -171,21 +171,22 @@ export default function App() {
         </div>
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <div className="inline-block mb-6">
-            <span className="px-4 py-2 bg-gradient-to-r from-indigo-500/10 to-purple-500/10 border border-indigo-200/50 rounded-full text-sm font-medium text-indigo-700 backdrop-blur-sm">
-              ✨ Hemsidor som driver tillväxt
+            <span className="px-4 py-2 bg-gradient-to-r from-indigo-500/10 to-purple-500/10 border border-indigo-200/50 rounded-full text-sm font-bold text-indigo-700 backdrop-blur-sm uppercase tracking-wide">
+              📅 30 Dagar – Garanterat
             </span>
           </div>
           <h1 className="text-6xl md:text-7xl lg:text-8xl font-bold text-gray-900 mb-8 leading-tight text-balance">
-            Skapa din{' '}
+            Vi Fyller Din Kalender{' '}
             <span className="bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 bg-clip-text text-transparent inline-block">
-              drömhemsida
+              Med Nya Kunder
             </span>
             <br />
-            <span className="text-5xl md:text-6xl lg:text-7xl text-gray-700">som alla minns</span>
+            <span className="text-5xl md:text-6xl lg:text-7xl text-gray-700">Inom 30 Dagar</span>
           </h1>
-          <p className="text-xl md:text-2xl text-gray-600 mb-12 max-w-3xl mx-auto leading-relaxed font-light">
-            Vi bygger hemsidor med hjärta som kombinerar modern design, smart teknologi och autentisk berättelse.
-            <span className="block mt-2 text-lg text-gray-500">För företag som vill synas, växa och göra skillnad.</span>
+          <p className="text-xl md:text-2xl text-gray-600 mb-12 max-w-3xl mx-auto leading-relaxed font-normal">
+            Sluta vänta på att kunder ska hitta dig.
+            <span className="block mt-3 text-lg text-gray-700 font-semibold">Vi placerar ditt företag framför lokala kunder som aktivt söker dina tjänster.</span>
+            <span className="block mt-3 text-base text-gray-500">Hemsidor • Appar • Google Ads • SEO • Reklamfilmer</span>
           </p>
           
           <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-16">
@@ -194,7 +195,7 @@ export default function App() {
               className="group min-h-[60px] px-10 py-4 bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 text-white rounded-full text-lg font-semibold hover:shadow-2xl hover:scale-105 transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2 flex items-center gap-2 relative overflow-hidden"
               aria-label="Kom igång med din nya hemsida"
             >
-              <span className="relative z-10">Kom Igång Nu</span>
+              <span className="relative z-10 font-bold uppercase tracking-wide">Boka Samtal</span>
               <ArrowRight className="w-5 h-5 relative z-10 group-hover:translate-x-1 transition-transform duration-300" />
               <div className="absolute inset-0 bg-gradient-to-r from-pink-600 via-purple-600 to-indigo-600 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
             </button>
@@ -213,22 +214,22 @@ export default function App() {
               <div className="w-16 h-16 bg-gradient-to-br from-emerald-400 to-teal-500 rounded-2xl flex items-center justify-center mx-auto mb-4 group-hover:rotate-6 transition-transform duration-300">
                 <CheckCircle className="w-8 h-8 text-white" />
               </div>
-              <h3 className="text-lg font-semibold text-gray-900 mb-2">Snabb Leverans</h3>
-              <p className="text-sm text-gray-600">Klar inom 1-2 veckor</p>
+              <h3 className="text-lg font-bold text-gray-900 mb-2">30 Dagars Garanti</h3>
+              <p className="text-sm text-gray-600 font-medium">Resultat eller pengarna tillbaka</p>
             </div>
             <div className="glass-card p-6 rounded-2xl text-center hover:scale-105 transition-all duration-300 group glow-card">
               <div className="w-16 h-16 bg-gradient-to-br from-indigo-400 to-purple-500 rounded-2xl flex items-center justify-center mx-auto mb-4 group-hover:rotate-6 transition-transform duration-300">
                 <Star className="w-8 h-8 text-white" />
               </div>
-              <h3 className="text-lg font-semibold text-gray-900 mb-2">2026 Design</h3>
-              <p className="text-sm text-gray-600">Modern & minnesvärd</p>
+              <h3 className="text-lg font-bold text-gray-900 mb-2">Top 3 På Google Maps</h3>
+              <p className="text-sm text-gray-600 font-medium">Inom 90 dagar</p>
             </div>
             <div className="glass-card p-6 rounded-2xl text-center hover:scale-105 transition-all duration-300 group glow-card">
               <div className="w-16 h-16 bg-gradient-to-br from-pink-400 to-rose-500 rounded-2xl flex items-center justify-center mx-auto mb-4 group-hover:rotate-6 transition-transform duration-300">
                 <ArrowRight className="w-8 h-8 text-white" />
               </div>
-              <h3 className="text-lg font-semibold text-gray-900 mb-2">SEO-Optimerad</h3>
-              <p className="text-sm text-gray-600">Syns på Google</p>
+              <h3 className="text-lg font-bold text-gray-900 mb-2">Var Överallt</h3>
+              <p className="text-sm text-gray-600 font-medium">Google, Instagram, Facebook, YouTube</p>
             </div>
           </div>
         </div>
@@ -239,15 +240,16 @@ export default function App() {
         <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-purple-200 to-transparent"></div>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-20">
-            <span className="px-4 py-2 bg-gradient-to-r from-indigo-500/10 to-purple-500/10 border border-indigo-200/50 rounded-full text-sm font-medium text-indigo-700 backdrop-blur-sm inline-block mb-4">
-              🌐 Våra Tjänster
+            <span className="px-4 py-2 bg-gradient-to-r from-indigo-500/10 to-purple-500/10 border border-indigo-200/50 rounded-full text-sm font-bold text-indigo-700 backdrop-blur-sm inline-block mb-4 uppercase tracking-wide">
+              🚀 Allt Du Behöver
             </span>
             <h2 className="text-5xl md:text-6xl font-bold text-gray-900 mb-6 text-balance">
-              Allt du behöver för att{' '}
-              <span className="bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent">lyckas online</span>
+              Synas.{' '}
+              <span className="bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent">Växa.</span>{' '}
+              Dominera.
             </h2>
-            <p className="text-xl text-gray-600 max-w-2xl mx-auto font-light">
-              Vi kombinerar design, teknik och strategi för att skapa hemsidor som ger resultat
+            <p className="text-xl text-gray-600 max-w-2xl mx-auto font-normal">
+              Stop waiting for customers to find you. <span className="font-semibold text-gray-800">Be everywhere they look.</span>
             </p>
           </div>
 
@@ -258,14 +260,14 @@ export default function App() {
                 <div className="w-16 h-16 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 group-hover:rotate-3 transition-all duration-300">
                   <CheckCircle className="w-8 h-8 text-white" />
                 </div>
-                <h3 className="text-2xl font-bold text-gray-900 mb-4">Professionella Hemsidor</h3>
-                <p className="text-gray-600 mb-6 leading-relaxed">
-                  Skräddarsydda företagshemsidor som representerar ditt varumärke perfekt och driver tillväxt.
+                <h3 className="text-2xl font-bold text-gray-900 mb-4">Hemsidor & Appar</h3>
+                <p className="text-gray-600 mb-6 leading-relaxed font-medium">
+                  Show up professional. Work smart. Impress every visitor.
                 </p>
                 <ul className="space-y-3 text-gray-600">
-                  <li className="flex items-center text-sm"><div className="w-1.5 h-1.5 bg-indigo-500 rounded-full mr-3"></div>Responsiv för alla enheter</li>
-                  <li className="flex items-center text-sm"><div className="w-1.5 h-1.5 bg-indigo-500 rounded-full mr-3"></div>Enkel att uppdatera</li>
-                  <li className="flex items-center text-sm"><div className="w-1.5 h-1.5 bg-indigo-500 rounded-full mr-3"></div>Blixtsnabb laddning</li>
+                  <li className="flex items-center text-sm font-medium"><div className="w-1.5 h-1.5 bg-indigo-500 rounded-full mr-3"></div>Hemsidor som konverterar</li>
+                  <li className="flex items-center text-sm font-medium"><div className="w-1.5 h-1.5 bg-indigo-500 rounded-full mr-3"></div>Mobila appar (iOS & Android)</li>
+                  <li className="flex items-center text-sm font-medium"><div className="w-1.5 h-1.5 bg-indigo-500 rounded-full mr-3"></div>Blixtsnabb prestanda</li>
                 </ul>
               </div>
             </div>
@@ -276,14 +278,14 @@ export default function App() {
                 <div className="w-16 h-16 bg-gradient-to-br from-emerald-500 to-teal-600 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 group-hover:rotate-3 transition-all duration-300">
                   <Star className="w-8 h-8 text-white" />
                 </div>
-                <h3 className="text-2xl font-bold text-gray-900 mb-4">Landningssidor</h3>
-                <p className="text-gray-600 mb-6 leading-relaxed">
-                  Högkonverterande sidor för kampanjer och tjänster som förvandlar besökare till kunder.
+                <h3 className="text-2xl font-bold text-gray-900 mb-4">Paid Ads Som Ger ROI</h3>
+                <p className="text-gray-600 mb-6 leading-relaxed font-medium">
+                  Reach every local customer actively searching for your services.
                 </p>
                 <ul className="space-y-3 text-gray-600">
-                  <li className="flex items-center text-sm"><div className="w-1.5 h-1.5 bg-emerald-500 rounded-full mr-3"></div>Psykologiskt optimerad</li>
-                  <li className="flex items-center text-sm"><div className="w-1.5 h-1.5 bg-emerald-500 rounded-full mr-3"></div>A/B-testad design</li>
-                  <li className="flex items-center text-sm"><div className="w-1.5 h-1.5 bg-emerald-500 rounded-full mr-3"></div>Tydliga call-to-actions</li>
+                  <li className="flex items-center text-sm font-medium"><div className="w-1.5 h-1.5 bg-emerald-500 rounded-full mr-3"></div>Google Ads expertis</li>
+                  <li className="flex items-center text-sm font-medium"><div className="w-1.5 h-1.5 bg-emerald-500 rounded-full mr-3"></div>Instagram & Facebook kampanjer</li>
+                  <li className="flex items-center text-sm font-medium"><div className="w-1.5 h-1.5 bg-emerald-500 rounded-full mr-3"></div>YouTube marknadsföring</li>
                 </ul>
               </div>
             </div>
@@ -294,14 +296,14 @@ export default function App() {
                 <div className="w-16 h-16 bg-gradient-to-br from-pink-500 to-rose-600 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 group-hover:rotate-3 transition-all duration-300">
                   <ArrowRight className="w-8 h-8 text-white" />
                 </div>
-                <h3 className="text-2xl font-bold text-gray-900 mb-4">SEO & Synlighet</h3>
-                <p className="text-gray-600 mb-6 leading-relaxed">
-                  Gör din hemsida synlig på Google så att rätt kunder hittar dig när de söker.
+                <h3 className="text-2xl font-bold text-gray-900 mb-4">Rank #1 På Google</h3>
+                <p className="text-gray-600 mb-6 leading-relaxed font-medium">
+                  Top 3 på Google Maps inom 90 dagar. Guaranteed organic visibility.
                 </p>
                 <ul className="space-y-3 text-gray-600">
-                  <li className="flex items-center text-sm"><div className="w-1.5 h-1.5 bg-pink-500 rounded-full mr-3"></div>Teknisk SEO-optimering</li>
-                  <li className="flex items-center text-sm"><div className="w-1.5 h-1.5 bg-pink-500 rounded-full mr-3"></div>Sökordsanalys & strategi</li>
-                  <li className="flex items-center text-sm"><div className="w-1.5 h-1.5 bg-pink-500 rounded-full mr-3"></div>Lokal SEO för Sverige</li>
+                  <li className="flex items-center text-sm font-medium"><div className="w-1.5 h-1.5 bg-pink-500 rounded-full mr-3"></div>Google Maps ranking</li>
+                  <li className="flex items-center text-sm font-medium"><div className="w-1.5 h-1.5 bg-pink-500 rounded-full mr-3"></div>Lokal SEO-dominans</li>
+                  <li className="flex items-center text-sm font-medium"><div className="w-1.5 h-1.5 bg-pink-500 rounded-full mr-3"></div>Professionella reklamfilmer</li>
                 </ul>
               </div>
             </div>
