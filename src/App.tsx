@@ -484,15 +484,14 @@ export default function App() {
               <div className="relative z-10">
                 <div className="flex items-center justify-between mb-6">
                 <h3 className="text-2xl font-bold text-purple-600">Kong Mindset</h3>
-                <a 
-                  href="https://kongmindset.com" 
-                  target="_blank" 
+                <a
+                  href="https://kongmindset.se"
+                  target="_blank"
                   rel="noopener noreferrer"
                   className="min-h-[32px] text-purple-600 hover:text-purple-700 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2 rounded"
                   aria-label="Besök Kong Mindset webbsida"
                 >
-                  <ExternalLink className="w-5 h-5" />
-                    <ExternalLink className="w-5 h-5 group-hover:translate-x-1 transition-transform duration-300" />
+                  <ExternalLink className="w-5 h-5 group-hover:translate-x-1 transition-transform duration-300" />
                   </a>
                 </div>
                 <div className="flex items-center mb-6">
