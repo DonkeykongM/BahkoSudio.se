@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Star, CheckCircle, ArrowRight, Phone, Mail, MapPin, ExternalLink, Loader2 } from 'lucide-react';
+import { supabase } from './lib/supabase';
 
 export default function App() {
   const [formData, setFormData] = useState({
@@ -26,11 +27,25 @@ export default function App() {
     setSubmitStatus('idle');
 
     try {
-      // Simulate API call
-      await new Promise(resolve => setTimeout(resolve, 2000));
+      const { error } = await supabase
+        .from('contact_submissions')
+        .insert([
+          {
+            name: formData.name,
+            email: formData.email,
+            phone: formData.phone || null,
+            company: formData.company || null,
+            message: formData.message || null,
+            status: 'new'
+          }
+        ]);
+
+      if (error) throw error;
+
       setSubmitStatus('success');
       setFormData({ name: '', email: '', phone: '', company: '', message: '' });
     } catch (error) {
+      console.error('Error submitting form:', error);
       setSubmitStatus('error');
     } finally {
       setIsSubmitting(false);
