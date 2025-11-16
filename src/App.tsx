@@ -171,7 +171,7 @@ export default function App() {
               <img
                 src="https://nikjm8tf0e.ufs.sh/f/mNFirk6dCRarzegIlqhRqJO8ZrmDNjg4Sc2WzeU9pnIB7Kub"
                 alt="BahkoStudio Logo"
-                className="h-16 w-16 object-contain"
+                className="h-20 w-20 object-contain"
               />
               <h1 className="text-3xl font-bold bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 bg-clip-text text-transparent">
                 BahkoStudio
