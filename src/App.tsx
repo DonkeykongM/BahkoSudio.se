@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Star, CheckCircle, ArrowRight, Phone, Mail, MapPin, ExternalLink, Loader2 } from 'lucide-react';
+import { Star, CheckCircle, ArrowRight, Phone, Mail, MapPin, ExternalLink, Loader2, ChevronDown } from 'lucide-react';
 import { supabase } from './lib/supabase';
 
 export default function App() {
@@ -12,6 +12,7 @@ export default function App() {
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle');
+  const [openFaqIndex, setOpenFaqIndex] = useState<number | null>(null);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
@@ -89,6 +90,45 @@ export default function App() {
     window.open('https://www.genspark.ai/api/page_private?id=cumznxdv', '_blank', 'noopener,noreferrer');
   };
 
+  const toggleFaq = (index: number) => {
+    setOpenFaqIndex(openFaqIndex === index ? null : index);
+  };
+
+  const faqs = [
+    {
+      question: "Hur lång tid tar det att bygga en hemsida?",
+      answer: "En typisk landningssida eller företagshemsida tar 1-2 veckor från start till lansering. För mer komplexa projekt med flera sidor och funktioner kan det ta 3-4 veckor. Vi arbetar snabbt utan att kompromissa med kvaliteten."
+    },
+    {
+      question: "Vad kostar det att bygga en professionell hemsida?",
+      answer: "Våra priser börjar från 15 000 kr för en enkel landningssida. En fullständig företagshemsida med flera sidor kostar mellan 25 000-50 000 kr. Vi erbjuder alltid en kostnadsfri konsultation där vi kan ge dig en exakt offert baserat på dina behov."
+    },
+    {
+      question: "Får jag en mobilanpassad hemsida?",
+      answer: "Absolut! Alla våra hemsidor är fullt responsiva och ser perfekta ut på mobiler, surfplattor och datorer. Över 60% av alla besökare kommer från mobila enheter, så mobiloptimering är alltid en prioritet i våra projekt."
+    },
+    {
+      question: "Kan jag uppdatera hemsidan själv efteråt?",
+      answer: "Ja, vi bygger hemsidor som är enkla att uppdatera. Vi ger dig en genomgång av hur du enkelt kan uppdatera texter, bilder och innehåll. För mer tekniska uppdateringar erbjuder vi löpande support."
+    },
+    {
+      question: "Vad ingår i SEO-optimeringen?",
+      answer: "Våra hemsidor är optimerade för sökmotorer från start med snabba laddningstider, semantisk HTML, meta-taggar, strukturerad data, och optimerat innehåll för relevanta sökord. Detta hjälper din hemsida att synas bättre på Google."
+    },
+    {
+      question: "Hjälper ni med webbhotell och domän?",
+      answer: "Ja, vi kan hjälpa dig med både webbhotell och domänregistrering. Vi rekommenderar pålitliga leverantörer och kan sköta hela uppsättningen åt dig så att allt fungerar smidigt från dag ett."
+    },
+    {
+      question: "Vad händer efter att hemsidan är klar?",
+      answer: "Efter lansering får du full äganderätt till hemsidan. Vi erbjuder support och underhållspaket om du vill ha hjälp med framtida uppdateringar, säkerhetsuppdateringar eller vidareutveckling av hemsidan."
+    },
+    {
+      question: "Kan ni hjälpa till med texterna och bilderna?",
+      answer: "Ja! Vi kan hjälpa dig skapa engagerande texter som säljer, eller arbeta med det innehåll du redan har. Vi använder professionella stockfotos från Pexels eller kan integrera dina egna bilder och material."
+    }
+  ];
+
   return (
     <div className="min-h-screen bg-white">
       {/* Navigation */}
@@ -117,14 +157,14 @@ export default function App() {
       <section className="bg-gradient-to-br from-blue-50 via-white to-purple-50 py-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <h1 className="text-5xl md:text-6xl font-bold text-gray-900 mb-6 leading-tight">
-            Vi Fyller Din Kalender med{' '}
-            <span className="bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
-              Nya Kunder
+            Professionella{' '}
+            <span className="bg-gradient-to-r from-blue-600 to-green-600 bg-clip-text text-transparent">
+              Hemsidor & Landningssidor
             </span>{' '}
-            inom 30 Dagar
+            som Driver Resultat
           </h1>
           <p className="text-xl text-gray-600 mb-8 max-w-3xl mx-auto leading-relaxed">
-            Garanterade resultat på 30 dagar eller pengarna tillbaka. Vi skapar landningssidor som konverterar + topplacering på Google. Över 200 nöjda kunder.
+            Vi bygger moderna, snabba och konverteringsoptimerade hemsidor för företag i Sverige. Specialiserat på restauranger, lokala företag och tjänsteföretag. Få en professionell närvaro online idag.
           </p>
           
           <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-12">
@@ -151,22 +191,22 @@ export default function App() {
               <div className="w-20 h-20 bg-gradient-to-br from-green-100 to-green-200 rounded-full flex items-center justify-center mx-auto mb-4">
                 <CheckCircle className="w-10 h-10 text-green-600" />
               </div>
-              <h3 className="text-xl font-semibold text-gray-900 mb-2">Garanterade Resultat</h3>
-              <p className="text-gray-600">30 dagar eller pengarna tillbaka</p>
+              <h3 className="text-xl font-semibold text-gray-900 mb-2">Snabb Leverans</h3>
+              <p className="text-gray-600">Din hemsida klar inom 1-2 veckor</p>
             </div>
             <div className="text-center">
               <div className="w-20 h-20 bg-gradient-to-br from-blue-100 to-blue-200 rounded-full flex items-center justify-center mx-auto mb-4">
                 <Star className="w-10 h-10 text-blue-600" />
               </div>
-              <h3 className="text-xl font-semibold text-gray-900 mb-2">200+ Nöjda Kunder</h3>
-              <p className="text-gray-600">Bevisat framgångsrikt system</p>
+              <h3 className="text-xl font-semibold text-gray-900 mb-2">Modern Design</h3>
+              <p className="text-gray-600">Vacker design som ställer dig i fokus</p>
             </div>
             <div className="text-center">
               <div className="w-20 h-20 bg-gradient-to-br from-purple-100 to-purple-200 rounded-full flex items-center justify-center mx-auto mb-4">
                 <ArrowRight className="w-10 h-10 text-purple-600" />
               </div>
-              <h3 className="text-xl font-semibold text-gray-900 mb-2">Snabba Resultat</h3>
-              <p className="text-gray-600">Märkbara förbättringar inom 30 dagar</p>
+              <h3 className="text-xl font-semibold text-gray-900 mb-2">SEO-Optimerad</h3>
+              <p className="text-gray-600">Syns bättre på Google från start</p>
             </div>
           </div>
         </div>
@@ -177,10 +217,10 @@ export default function App() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
             <h2 className="text-4xl font-bold text-gray-900 mb-4">
-              Våra Tjänster
+              Webblösningar för Moderna Företag
             </h2>
             <p className="text-xl text-gray-600 max-w-2xl mx-auto">
-              Kompletta lösningar för att driva mer trafik och konvertera besökare till betalande kunder
+              Från responsiv webbdesign till komplett digital närvaro – vi skapar hemsidor som driver tillväxt för ditt företag
             </p>
           </div>
 
@@ -189,14 +229,14 @@ export default function App() {
               <div className="w-16 h-16 bg-blue-100 rounded-lg flex items-center justify-center mb-6">
                 <CheckCircle className="w-8 h-8 text-blue-600" />
               </div>
-              <h3 className="text-2xl font-bold text-gray-900 mb-4">Landningssidor Som Konverterar</h3>
+              <h3 className="text-2xl font-bold text-gray-900 mb-4">Professionella Hemsidor för Företag</h3>
               <p className="text-gray-600 mb-6">
-                Vi bygger webbsidor som konverterar besökare till kunder med psykologi-baserad design och optimerade konverteringsflöden.
+                Skräddarsydda företagshemsidor som representerar ditt varumärke perfekt. Modern webbdesign som fungerar lika bra på mobil som dator.
               </p>
               <ul className="space-y-2 text-gray-600">
-                <li className="flex items-center"><CheckCircle className="w-5 h-5 text-green-500 mr-3 flex-shrink-0" />Mobiloptimerad design</li>
-                <li className="flex items-center"><CheckCircle className="w-5 h-5 text-green-500 mr-3 flex-shrink-0" />A/B-testad för maximal konvertering</li>
-                <li className="flex items-center"><CheckCircle className="w-5 h-5 text-green-500 mr-3 flex-shrink-0" />Snabba laddningstider</li>
+                <li className="flex items-center"><CheckCircle className="w-5 h-5 text-green-500 mr-3 flex-shrink-0" />Responsiv design för alla enheter</li>
+                <li className="flex items-center"><CheckCircle className="w-5 h-5 text-green-500 mr-3 flex-shrink-0" />Användarvänligt CMS-system</li>
+                <li className="flex items-center"><CheckCircle className="w-5 h-5 text-green-500 mr-3 flex-shrink-0" />Blixtsnabba laddningstider</li>
               </ul>
             </div>
 
@@ -204,14 +244,14 @@ export default function App() {
               <div className="w-16 h-16 bg-green-100 rounded-lg flex items-center justify-center mb-6">
                 <Star className="w-8 h-8 text-green-600" />
               </div>
-              <h3 className="text-2xl font-bold text-gray-900 mb-4">SEO Som Verkligen Fungerar</h3>
+              <h3 className="text-2xl font-bold text-gray-900 mb-4">Landningssidor Som Konverterar</h3>
               <p className="text-gray-600 mb-6">
-                Organisk ranking som placerar dig nummer 1 på Google Maps och Google sökning för dina lokala sökord.
+                Högkonverterande landningssidor för kampanjer, produkter och tjänster. Psykologiskt optimerad design som förvandlar besökare till kunder.
               </p>
               <ul className="space-y-2 text-gray-600">
-                <li className="flex items-center"><CheckCircle className="w-5 h-5 text-green-500 mr-3 flex-shrink-0" />Google My Business optimering</li>
-                <li className="flex items-center"><CheckCircle className="w-5 h-5 text-green-500 mr-3 flex-shrink-0" />Lokal SEO expertis</li>
-                <li className="flex items-center"><CheckCircle className="w-5 h-5 text-green-500 mr-3 flex-shrink-0" />Kontinuerlig optimering</li>
+                <li className="flex items-center"><CheckCircle className="w-5 h-5 text-green-500 mr-3 flex-shrink-0" />Konverteringsoptimerad design</li>
+                <li className="flex items-center"><CheckCircle className="w-5 h-5 text-green-500 mr-3 flex-shrink-0" />A/B-testad för bäst resultat</li>
+                <li className="flex items-center"><CheckCircle className="w-5 h-5 text-green-500 mr-3 flex-shrink-0" />Tydliga call-to-actions</li>
               </ul>
             </div>
 
@@ -219,14 +259,14 @@ export default function App() {
               <div className="w-16 h-16 bg-purple-100 rounded-lg flex items-center justify-center mb-6">
                 <ArrowRight className="w-8 h-8 text-purple-600" />
               </div>
-              <h3 className="text-2xl font-bold text-gray-900 mb-4">Digital Marknadsföring</h3>
+              <h3 className="text-2xl font-bold text-gray-900 mb-4">SEO-Optimering & Synlighet</h3>
               <p className="text-gray-600 mb-6">
-                Annonser på Google, Facebook, Instagram för att nå varje lokal kund som letar efter dina tjänster.
+                Gör din hemsida synlig på Google med vår SEO-expertis. Vi optimerar för sökmotorer så att potentiella kunder hittar dig.
               </p>
               <ul className="space-y-2 text-gray-600">
-                <li className="flex items-center"><CheckCircle className="w-5 h-5 text-green-500 mr-3 flex-shrink-0" />Google Ads expertis</li>
-                <li className="flex items-center"><CheckCircle className="w-5 h-5 text-green-500 mr-3 flex-shrink-0" />Facebook & Instagram annonser</li>
-                <li className="flex items-center"><CheckCircle className="w-5 h-5 text-green-500 mr-3 flex-shrink-0" />ROI-fokuserade kampanjer</li>
+                <li className="flex items-center"><CheckCircle className="w-5 h-5 text-green-500 mr-3 flex-shrink-0" />Teknisk SEO-optimering</li>
+                <li className="flex items-center"><CheckCircle className="w-5 h-5 text-green-500 mr-3 flex-shrink-0" />Sökordsanalys & innehållsstrategi</li>
+                <li className="flex items-center"><CheckCircle className="w-5 h-5 text-green-500 mr-3 flex-shrink-0" />Lokal SEO för svenska företag</li>
               </ul>
             </div>
           </div>
@@ -647,6 +687,66 @@ export default function App() {
                 Vi svarar normalt inom 2 timmar under kontorstid
               </p>
             </div>
+          </div>
+        </div>
+      </section>
+
+      {/* FAQ Section */}
+      <section className="py-20 bg-white">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-16">
+            <h2 className="text-4xl font-bold text-gray-900 mb-4">
+              Vanliga Frågor om Hemsidor och Webbdesign
+            </h2>
+            <p className="text-xl text-gray-600 max-w-2xl mx-auto">
+              Här hittar du svar på de vanligaste frågorna om att bygga en professionell hemsida
+            </p>
+          </div>
+
+          <div className="space-y-4">
+            {faqs.map((faq, index) => (
+              <div key={index} className="bg-gray-50 rounded-lg overflow-hidden border border-gray-200 hover:border-blue-300 transition-colors duration-200">
+                <button
+                  onClick={() => toggleFaq(index)}
+                  className="w-full px-6 py-5 flex items-center justify-between text-left hover:bg-gray-100 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-inset"
+                  aria-expanded={openFaqIndex === index}
+                  aria-controls={`faq-answer-${index}`}
+                >
+                  <h3 className="text-lg font-semibold text-gray-900 pr-8">
+                    {faq.question}
+                  </h3>
+                  <ChevronDown
+                    className={`w-5 h-5 text-blue-600 flex-shrink-0 transform transition-transform duration-200 ${
+                      openFaqIndex === index ? 'rotate-180' : ''
+                    }`}
+                  />
+                </button>
+                <div
+                  id={`faq-answer-${index}`}
+                  className={`overflow-hidden transition-all duration-300 ease-in-out ${
+                    openFaqIndex === index ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'
+                  }`}
+                >
+                  <div className="px-6 pb-5 text-gray-600 leading-relaxed">
+                    {faq.answer}
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          <div className="text-center mt-12">
+            <p className="text-gray-600 mb-6">
+              Har du fler frågor? Vi svarar gärna på allt du undrar över.
+            </p>
+            <button
+              onClick={scrollToContact}
+              className="min-h-[56px] px-8 py-4 bg-gradient-to-r from-blue-600 to-green-600 text-white rounded-lg text-lg font-semibold hover:from-blue-700 hover:to-green-700 transform hover:scale-105 transition-all duration-200 shadow-lg hover:shadow-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 inline-flex items-center gap-2"
+              aria-label="Kontakta oss för att ställa dina frågor"
+            >
+              Kontakta Oss Idag
+              <ArrowRight className="w-5 h-5" />
+            </button>
           </div>
         </div>
       </section>
