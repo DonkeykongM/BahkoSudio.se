@@ -27,6 +27,27 @@ export default function App() {
     setSubmitStatus('idle');
 
     try {
+      const webhookUrl = import.meta.env.VITE_MAKE_WEBHOOK_URL;
+
+      const webhookResponse = await fetch(webhookUrl, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          name: formData.name,
+          email: formData.email,
+          phone: formData.phone || '',
+          company: formData.company || '',
+          message: formData.message || '',
+          timestamp: new Date().toISOString()
+        }),
+      });
+
+      if (!webhookResponse.ok) {
+        throw new Error('Webhook request failed');
+      }
+
       const { error } = await supabase
         .from('contact_submissions')
         .insert([
@@ -40,7 +61,9 @@ export default function App() {
           }
         ]);
 
-      if (error) throw error;
+      if (error) {
+        console.error('Supabase error (backup storage):', error);
+      }
 
       setSubmitStatus('success');
       setFormData({ name: '', email: '', phone: '', company: '', message: '' });
