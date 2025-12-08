@@ -261,7 +261,7 @@ export default function App() {
                 <ArrowRight className="w-8 h-8 text-white" />
               </div>
               <h3 className="text-lg font-bold text-gray-900 mb-2">Var Överallt</h3>
-              <p className="text-sm text-gray-600 font-medium">Google, Instagram, Facebook, YouTube</p>
+              <p className="text-sm text-gray-600 font-medium">Google, Instagram, Facebook, YouTube, ChatGPT, Claude, Grok, Perplexity</p>
             </div>
           </div>
         </div>
@@ -328,9 +328,9 @@ export default function App() {
                 <div className="w-16 h-16 bg-gradient-to-br from-pink-500 to-rose-600 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 group-hover:rotate-3 transition-all duration-300">
                   <ArrowRight className="w-8 h-8 text-white" />
                 </div>
-                <h3 className="text-2xl font-bold text-gray-900 mb-4">Rank #1 På Google</h3>
+                <h3 className="text-2xl font-bold text-gray-900 mb-4">Ranka På Första Sidan</h3>
                 <p className="text-gray-600 mb-6 leading-relaxed font-medium">
-                  Top 3 på Google Maps inom 90 dagar. Garanterad organisk synlighet.
+                  70% av trafiken går till topp 3. Top 3 på Google Maps inom 90 dagar. Garanterad organisk synlighet.
                 </p>
                 <ul className="space-y-3 text-gray-600">
                   <li className="flex items-center text-sm font-medium"><div className="w-1.5 h-1.5 bg-pink-500 rounded-full mr-3"></div>Google Maps ranking</li>
