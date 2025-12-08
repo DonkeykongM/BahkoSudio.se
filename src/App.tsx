@@ -318,6 +318,7 @@ export default function App() {
                   <li className="flex items-center text-sm font-medium"><div className="w-1.5 h-1.5 bg-emerald-500 rounded-full mr-3"></div>Google Ads expertis</li>
                   <li className="flex items-center text-sm font-medium"><div className="w-1.5 h-1.5 bg-emerald-500 rounded-full mr-3"></div>Instagram & Facebook kampanjer</li>
                   <li className="flex items-center text-sm font-medium"><div className="w-1.5 h-1.5 bg-emerald-500 rounded-full mr-3"></div>YouTube marknadsföring</li>
+                  <li className="flex items-center text-sm font-medium"><div className="w-1.5 h-1.5 bg-emerald-500 rounded-full mr-3"></div>Professionella reklamfilmer</li>
                 </ul>
               </div>
             </div>
@@ -336,7 +337,6 @@ export default function App() {
                   <li className="flex items-center text-sm font-medium"><div className="w-1.5 h-1.5 bg-pink-500 rounded-full mr-3"></div>Google Maps ranking</li>
                   <li className="flex items-center text-sm font-medium"><div className="w-1.5 h-1.5 bg-pink-500 rounded-full mr-3"></div>Lokal SEO-dominans</li>
                   <li className="flex items-center text-sm font-medium"><div className="w-1.5 h-1.5 bg-pink-500 rounded-full mr-3"></div>70% av trafiken går till topp 3</li>
-                  <li className="flex items-center text-sm font-medium"><div className="w-1.5 h-1.5 bg-pink-500 rounded-full mr-3"></div>Annonser som ger ROI</li>
                 </ul>
               </div>
             </div>
