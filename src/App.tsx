@@ -330,12 +330,13 @@ export default function App() {
                 </div>
                 <h3 className="text-2xl font-bold text-gray-900 mb-4">Ranka På Första Sidan</h3>
                 <p className="text-gray-600 mb-6 leading-relaxed font-medium">
-                  70% av trafiken går till topp 3. Top 3 på Google Maps inom 90 dagar. Garanterad organisk synlighet.
+                  Top 3 på Google Maps inom 90 dagar. Garanterad organisk synlighet.
                 </p>
                 <ul className="space-y-3 text-gray-600">
                   <li className="flex items-center text-sm font-medium"><div className="w-1.5 h-1.5 bg-pink-500 rounded-full mr-3"></div>Google Maps ranking</li>
                   <li className="flex items-center text-sm font-medium"><div className="w-1.5 h-1.5 bg-pink-500 rounded-full mr-3"></div>Lokal SEO-dominans</li>
-                  <li className="flex items-center text-sm font-medium"><div className="w-1.5 h-1.5 bg-pink-500 rounded-full mr-3"></div>Professionella reklamfilmer</li>
+                  <li className="flex items-center text-sm font-medium"><div className="w-1.5 h-1.5 bg-pink-500 rounded-full mr-3"></div>70% av trafiken går till topp 3</li>
+                  <li className="flex items-center text-sm font-medium"><div className="w-1.5 h-1.5 bg-pink-500 rounded-full mr-3"></div>Annonser som ger ROI</li>
                 </ul>
               </div>
             </div>
